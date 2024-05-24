@@ -36,4 +36,23 @@ def countries_put(country_code):
 @api_routes.route('/countries/<country_code>/cities', methods=["GET"])
 def countries_specific_cities_get(country_code):
     """ returns cities data of specified country """
+
+    # Here is an example of how model relationships can be used to extract data in addition to enforcing foreign keys
+    # It is literally be a replacement for my implementation of the Country.cities method
+    # Unfortunately, we still need to do cleanup of the data that is returned
+    # 
+    # from data import storage
+    # data = []
+    # country_data = storage.get('Country', '_Country__code', country_code)
+    # city_data = country_data[0].cities_r
+    # for v in city_data:
+    #     data.append({
+    #         "id": v.id,
+    #         "name": v.name,
+    #         "country_id": v.country_id,
+    #         "created_at":v.created_at.strftime(Country.datetime_format),
+    #         "updated_at":v.updated_at.strftime(Country.datetime_format)
+    #     })
+    # return data
+
     return Country.cities(country_code)

@@ -142,13 +142,13 @@ class User(Base):
             return "User not found!"
 
         data.append({
-            "id": user_data.id,
-            "first_name": user_data.first_name,
-            "last_name": user_data.last_name,
-            "email": user_data.email,
-            "password": user_data.password,
-            "created_at": user_data.created_at.strftime(User.datetime_format),
-            "updated_at": user_data.updated_at.strftime(User.datetime_format)
+            "id": user_data[0].id,
+            "first_name": user_data[0].first_name,
+            "last_name": user_data[0].last_name,
+            "email": user_data[0].email,
+            "password": user_data[0].password,
+            "created_at": user_data[0].created_at.strftime(User.datetime_format),
+            "updated_at": user_data[0].updated_at.strftime(User.datetime_format)
         })
 
         return jsonify(data)

@@ -24,7 +24,7 @@ class Country(Base):
     updated_at = Column(DateTime, nullable=False, default=datetime.now())
     __name = Column("name", String(128), nullable=False)
     __code = Column("code", String(2), nullable=False)
-    # cities = relationship("City", back_populates="country", cascade="delete, delete-orphan")
+    cities_r = relationship("City", back_populates="country_r", cascade="delete, delete-orphan")
 
     # Constructor
     def __init__(self, *args, **kwargs):
@@ -98,17 +98,17 @@ class Country(Base):
     def specific(country_code):
         """ Class method that returns a specific country's data"""
         try:
-            country_data: Country = storage.get('Country', 'code', country_code)
+            country_data: Country = storage.get('Country', '_Country__code', country_code)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load Country data!"
 
         c = {
-            "id": country_data.id,
-            "name": country_data.name,
-            "code": country_data.code,
-            "created_at": country_data.created_at.strftime(Country.datetime_format),
-            "updated_at": country_data.updated_at.strftime(Country.datetime_format)
+            "id": country_data[0].id,
+            "name": country_data[0].name,
+            "code": country_data[0].code,
+            "created_at": country_data[0].created_at.strftime(Country.datetime_format),
+            "updated_at": country_data[0].updated_at.strftime(Country.datetime_format)
         }
 
         return jsonify(c)
@@ -125,7 +125,7 @@ class Country(Base):
         if 'code' not in data:
             abort(400, "Missing country code")
 
-        exists = storage.get('Country', 'code', data["code"])
+        exists = storage.get('Country', '_Country__code', data["code"])
         if exists is not None:
             return "New country's code is the same as that of an existing country!"
 
@@ -161,7 +161,7 @@ class Country(Base):
 
         data = request.get_json()
 
-        country_data: Country = storage.get('Country', 'code', country_code)
+        country_data: Country = storage.get('Country', '_Country__code', country_code)
         if country_data is None:
             abort(400, "Country not found for code {}".format(country_code))
 
@@ -187,9 +187,10 @@ class Country(Base):
         """ Class method that returns a specific country's cities"""
         data = []
 
+        # If the column is mapped to a private variable, the attr name is mangled like below
         try:
-            country_data: Country = storage.get('Country', 'code', country_code)
-            city_data: City = storage.get('City', 'country_id', country_data.id)
+            country_data: Country = storage.get('Country', '_Country__code', country_code)
+            city_data: City = storage.get('City', '_City__country_id', country_data[0].id)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load Country data!"

@@ -73,10 +73,9 @@ class DBStorage():
         module = importlib.import_module("models." + namespace)
         class_ = getattr(module, class_name)
 
-        # only works if you specify both
         if key != "" and value != "":
             try:
-                rows = self.__session.query(class_).where(getattr(class_, key) == value).limit(1).one()
+                rows = self.__session.query(class_).where(getattr(class_, key) == value).all()
             except:
                 raise IndexError("Unable to load Model data. Attribute " + key + " not found")
         else:
