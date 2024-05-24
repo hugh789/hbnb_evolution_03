@@ -6,40 +6,32 @@ import uuid
 import re
 from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from data import storage, USE_DB_STORAGE, Base
+from data import storage, Base
 
 class City(Base):
     """Representation of city """
 
-    # Class attrib defaults
-    id = None
-    created_at = None
-    updated_at = None
-    __name = ""
-    __country_id = ""
+    can_init_list = ["country_id", "name"]
 
-    if USE_DB_STORAGE:
-        __tablename__ = 'cities'
-        id = Column(String(60), nullable=False, primary_key=True)
-        created_at = Column(DateTime, nullable=False, default=datetime.now())
-        updated_at = Column(DateTime, nullable=False, default=datetime.now())
-        __name = Column("name", String(128), nullable=False)
-        __country_id = Column("country_id", String(128), ForeignKey('countries.id'), nullable=False)
-        country_relation = relationship("Country", back_populates="cities_relation")
+    # Class attrib defaults
+    __tablename__ = 'cities'
+    id = Column(String(60), nullable=False, primary_key=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.now())
+    updated_at = Column(DateTime, nullable=False, default=datetime.now())
+    __name = Column("name", String(128), nullable=False)
+    __country_id = Column("country_id", String(128), ForeignKey('countries.id'), nullable=False)
+    # country = relationship("Country", back_populates="cities")
 
     # constructor
     def __init__(self, *args, **kwargs):
         """ constructor """
         # Set object instance defaults
         self.id = str(uuid.uuid4())
-        self.created_at = datetime.now().timestamp()
-        self.updated_at = self.created_at
 
-        # Only allow country_id, name.
-        # Note that setattr will call the setters for these 2 attribs
+        # Note that setattr will call the setters for attribs in the list
         if kwargs:
             for key, value in kwargs.items():
-                if key in ["country_id", "name"]:
+                if key in self.can_init_list:
                     setattr(self, key, value)
 
     @property
@@ -66,8 +58,10 @@ class City(Base):
     @country_id.setter
     def country_id(self, value):
         """Setter for private prop country_id"""
-        # ensure that the specified country id actually exists before setting
+        # the foreign key relation will ensure that the specified country id actually exists before setting it, right?
         if storage.get('Country', value) is not None:
             self.__country_id = value
         else:
             raise ValueError("Invalid country_id specified: {}".format(value))
+
+    # TODO: add methods

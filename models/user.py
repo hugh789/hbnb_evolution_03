@@ -6,12 +6,14 @@ import uuid
 import re
 from flask import jsonify, request, abort
 from sqlalchemy import Column, String, DateTime
-from data import storage, USE_DB_STORAGE, Base
+from data import storage, Base
 
 class User(Base):
     """Representation of user """
 
     datetime_format = "%Y-%m-%dT%H:%M:%S.%f"
+    can_init_list = ["first_name", "last_name", "email", "password"]
+    can_update_list = ["first_name", "last_name"]
 
     # Class attrib defaults
     __tablename__ = 'users'
@@ -31,11 +33,10 @@ class User(Base):
         # Set object instance defaults
         self.id = str(uuid.uuid4())
 
-        # Only allow first_name, last_name, email, password.
-        # Note that setattr will call the setters for these attribs
+        # Note that setattr will call the setters for attribs in the list
         if kwargs:
             for key, value in kwargs.items():
-                if key in ["first_name", "last_name", "email", "password"]:
+                if key in self.can_init_list:
                     setattr(self, key, value)
 
     # --- Getters and Setters ---
@@ -135,7 +136,7 @@ class User(Base):
         data = []
 
         try:
-            user_data = storage.get('User', user_id)
+            user_data: User = storage.get('User', 'id', user_id)
         except IndexError as exc:
             print("Error: ", exc)
             return "User not found!"
@@ -204,7 +205,7 @@ class User(Base):
 
         try:
             # update the User record. Only first_name and last_name can be changed
-            result = storage.update('User', user_id, data, ["first_name", "last_name"])
+            result = storage.update('User', user_id, data, User.can_update_list)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to update specified user!"

@@ -60,7 +60,7 @@ class DBStorage():
         Session = scoped_session(session_factory)
         self.__session = Session()
 
-    def get(self, class_name = "", record_id = ""):
+    def get(self, class_name = "", key = "", value = ""):
         """ Return data for specified class name with or without record id"""
 
         if class_name == "":
@@ -73,13 +73,15 @@ class DBStorage():
         module = importlib.import_module("models." + namespace)
         class_ = getattr(module, class_name)
 
-        if record_id == "":
-            rows = self.__session.query(class_).all()
-        else:
+        # only works if you specify both
+        if key != "" and value != "":
             try:
-                rows = self.__session.query(class_).where(class_.id == record_id).limit(1).one()
+                rows = self.__session.query(class_).where(getattr(class_, key) == value).limit(1).one()
             except:
-                raise IndexError("Unable to load Model data. Specified id not found")
+                raise IndexError("Unable to load Model data. Attribute " + key + " not found")
+        else:
+            rows = self.__session.query(class_).all()
+
 
         return rows
 
