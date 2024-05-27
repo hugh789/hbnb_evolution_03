@@ -24,7 +24,7 @@ def countries_specific_get(country_code):
 
 @api_routes.route('/countries/<country_code>', methods=["PUT"])
 def countries_put(country_code):
-    """ updates existing user data using specified id """
+    """ updates existing country data using specified id """
     # -- Usage example --
     # curl -X PUT [URL] /
     #    -H "Content-Type: application/json" /

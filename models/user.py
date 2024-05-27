@@ -175,8 +175,9 @@ class User(Base):
         except ValueError as exc:
             return repr(exc) + "\n"
 
-        # TODO: add a check here to ensure that the provided email is not already used by someone else in the DB
-        # If you see this message, tell me and I will (maybe) give you a cookie lol
+        email = storage.get('User', '_User__email', data["email"])
+        if email is not None:
+            abort(400, "Cannot create user! Email already exists.")
 
         output = {
             "id": new_user.id,

@@ -185,6 +185,8 @@ class Country(Base):
     @staticmethod
     def cities(country_code):
         """ Class method that returns a specific country's cities"""
+        # This method can be replaced partially by the cities_r relationship defined above
+
         data = []
 
         # If the column is mapped to a private variable, the attr name is mangled like below

@@ -4,6 +4,7 @@
 from datetime import datetime
 import uuid
 import re
+from flask import jsonify, request, abort
 from sqlalchemy import Column, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from data import storage, Base
@@ -11,7 +12,9 @@ from data import storage, Base
 class City(Base):
     """Representation of city """
 
+    datetime_format = "%Y-%m-%dT%H:%M:%S.%f"
     can_init_list = ["country_id", "name"]
+    can_update_list = ["name"]
 
     # Class attrib defaults
     __tablename__ = 'cities'
@@ -64,4 +67,109 @@ class City(Base):
         else:
             raise ValueError("Invalid country_id specified: {}".format(value))
 
-    # TODO: add methods
+    # --- Static methods ---
+    @staticmethod
+    def all():
+        """ Class method that returns all cities data"""
+        data = []
+
+        try:
+            country_data = storage.get('City')
+        except IndexError as exc:
+            print("Error: ", exc)
+            return "Unable to load cities!"
+
+        for row in country_data:
+            data.append({
+                "id": row.id,
+                "name": row.name,
+                "country_id": row.country_id,
+                "created_at": row.created_at.strftime(City.datetime_format),
+                "updated_at": row.updated_at.strftime(City.datetime_format)
+            })
+
+        return jsonify(data)
+
+    @staticmethod
+    def specific(city_id):
+        """ Class method that returns a specific city's data"""
+        try:
+            data: City = storage.get('City', 'id', city_id)
+        except IndexError as exc:
+            print("Error: ", exc)
+            return "Unable to load City data!"
+
+        c = {
+            "id": data[0].id,
+            "name": data[0].name,
+            "code": data[0].code,
+            "created_at": data[0].created_at.strftime(City.datetime_format),
+            "updated_at": data[0].updated_at.strftime(City.datetime_format)
+        }
+
+        return jsonify(c)
+
+    @staticmethod
+    def create():
+        """ Class method that creates a new city"""
+        if request.get_json() is None:
+            abort(400, "Not a JSON")
+
+        data = request.get_json()
+        if 'name' not in data:
+            abort(400, "Missing name")
+        if 'country_id' not in data:
+            abort(400, "Missing country id")
+
+        exists = storage.get('Country', 'id', data["country_id"])
+        if exists is None:
+            abort(400, "Specified country does not exist")
+
+        try:
+            new_city = City(
+                name=data["name"],
+                country_id=data["country_id"]
+            )
+        except ValueError as exc:
+            return repr(exc) + "\n"
+
+        try:
+            storage.add('City', new_city)
+        except IndexError as exc:
+            print("Error: ", exc)
+            return "Unable to add new City!"
+
+        output = {
+            "id": new_city.id,
+            "name": new_city.name,
+            "country_id": new_city.country_id,
+            "created_at": new_city.created_at.strftime(City.datetime_format),
+            "updated_at": new_city.updated_at.strftime(City.datetime_format)
+        }
+
+        return jsonify(output)
+
+    @staticmethod
+    def update(city_id):
+        """ Class method that updates an existing country"""
+        if request.get_json() is None:
+            abort(400, "Not a JSON")
+
+        data = request.get_json()
+
+        try:
+            # update the Country record. Only name can be changed
+            result = storage.update('Country', city_id, data, City.can_update_list)
+        except IndexError as exc:
+            print("Error: ", exc)
+            return "Unable to update specified country!"
+
+        output = {
+            "id": result.id,
+            "name": result.name,
+            "country_id": result.country_id,
+            "created_at": result.created_at.strftime(City.datetime_format),
+            "updated_at": result.updated_at.strftime(City.datetime_format)
+        }
+
+        return jsonify(output)
