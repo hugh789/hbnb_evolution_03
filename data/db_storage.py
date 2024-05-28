@@ -18,7 +18,8 @@ class DBStorage():
         "City": "city",
         "Amenity": "amenity",
         "Place": "place",
-        "Review": "review"
+        "Review": "review",
+        "PlaceAmenity": "place_amenity"
     }
 
     def __init__(self, Base):
@@ -84,17 +85,25 @@ class DBStorage():
 
         return rows
 
-    def add(self, class_name, new_record):
+    def add(self, new_record, do_commit = True):
         """ Adds another record to specified class """
 
-        if class_name.strip() == "" or not self.__module_names[class_name]:
-            raise IndexError("Specified class name is not valid")
-
-        # Assume that the database table already exists so we're not doing CREATE TABLE here
+        # Note that I've removed the classname because it's actually redundant.
+        # The model object itself already contains the information to tell SQLAlchemy where to chuck it
 
         self.__session.add(new_record)
-        self.__session.commit()
-        self.__session.refresh(new_record)
+
+        if do_commit:
+            self.__session.commit()
+            self.__session.refresh(new_record)
+
+    def add_all(self, new_records, do_commit = True):
+        """ add and commit multiple records """
+
+        self.__session.add_all(new_records)
+
+        if do_commit:
+            self.__session.commit()
 
     def update(self, class_name, record_id, update_data, allowed = None):
         """ Updates existing record of specified class """
@@ -136,3 +145,24 @@ class DBStorage():
 
         # For safety, don't return the original record. Return a copy instead
         return deepcopy(record)
+
+    def contains(self, class_name, ids_list):
+        """ Returns a simple TRUE or FALSE depending on whether all the ids in ids_list exist within the specified table """
+
+        ids_count = len(ids_list)
+
+        if not self.__module_names[class_name]:
+            raise IndexError("Unable to load Model data. Specified class name not found")
+
+        if ids_count == 0:
+            raise IndexError("No record ids specified.")
+
+        namespace = self.__module_names[class_name]
+        module = importlib.import_module("models." + namespace)
+        class_ = getattr(module, class_name)
+
+        rows = self.__session.query(class_).where(
+            getattr(class_, 'id').in_(ids_list)
+        ).all()
+
+        return len(rows) == len(ids_list)

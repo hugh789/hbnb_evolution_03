@@ -61,26 +61,22 @@ class City(Base):
     @country_id.setter
     def country_id(self, value):
         """Setter for private prop country_id"""
-        # the foreign key relation will ensure that the specified country id actually exists before setting it, right?
-        if storage.get('Country', value) is not None:
-            self.__country_id = value
-        else:
-            raise ValueError("Invalid country_id specified: {}".format(value))
+        self.__country_id = value
 
     # --- Static methods ---
     @staticmethod
     def all():
         """ Class method that returns all cities data"""
-        data = []
+        output = []
 
         try:
-            country_data = storage.get('City')
+            result = storage.get('City')
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load cities!"
 
-        for row in country_data:
-            data.append({
+        for row in result:
+            output.append({
                 "id": row.id,
                 "name": row.name,
                 "country_id": row.country_id,
@@ -88,26 +84,26 @@ class City(Base):
                 "updated_at": row.updated_at.strftime(City.datetime_format)
             })
 
-        return jsonify(data)
+        return jsonify(output)
 
     @staticmethod
     def specific(city_id):
         """ Class method that returns a specific city's data"""
         try:
-            data: City = storage.get('City', 'id', city_id)
+            result: City = storage.get('City', 'id', city_id)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load City data!"
 
-        c = {
-            "id": data[0].id,
-            "name": data[0].name,
-            "code": data[0].code,
-            "created_at": data[0].created_at.strftime(City.datetime_format),
-            "updated_at": data[0].updated_at.strftime(City.datetime_format)
+        output = {
+            "id": result[0].id,
+            "name": result[0].name,
+            "code": result[0].code,
+            "created_at": result[0].created_at.strftime(City.datetime_format),
+            "updated_at": result[0].updated_at.strftime(City.datetime_format)
         }
 
-        return jsonify(c)
+        return jsonify(output)
 
     @staticmethod
     def create():
@@ -134,7 +130,7 @@ class City(Base):
             return repr(exc) + "\n"
 
         try:
-            storage.add('City', new_city)
+            storage.add(new_city)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to add new City!"
@@ -151,18 +147,18 @@ class City(Base):
 
     @staticmethod
     def update(city_id):
-        """ Class method that updates an existing country"""
+        """ Class method that updates an existing city"""
         if request.get_json() is None:
             abort(400, "Not a JSON")
 
         data = request.get_json()
 
         try:
-            # update the Country record. Only name can be changed
-            result = storage.update('Country', city_id, data, City.can_update_list)
+            # update the City record. Only name can be changed
+            result = storage.update('City', city_id, data, City.can_update_list)
         except IndexError as exc:
             print("Error: ", exc)
-            return "Unable to update specified country!"
+            return "Unable to update specified city!"
 
         output = {
             "id": result.id,

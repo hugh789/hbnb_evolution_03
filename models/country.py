@@ -75,16 +75,16 @@ class Country(Base):
     @staticmethod
     def all():
         """ Class method that returns all countries data"""
-        data = []
+        output = []
 
         try:
-            country_data = storage.get('Country')
+            result = storage.get('Country')
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load countries!"
 
-        for row in country_data:
-            data.append({
+        for row in result:
+            output.append({
                 "id": row.id,
                 "name": row.name,
                 "code": row.code,
@@ -92,26 +92,26 @@ class Country(Base):
                 "updated_at": row.updated_at.strftime(Country.datetime_format)
             })
 
-        return jsonify(data)
+        return jsonify(output)
 
     @staticmethod
     def specific(country_code):
         """ Class method that returns a specific country's data"""
         try:
-            country_data: Country = storage.get('Country', '_Country__code', country_code)
+            result: Country = storage.get('Country', '_Country__code', country_code)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load Country data!"
 
-        c = {
-            "id": country_data[0].id,
-            "name": country_data[0].name,
-            "code": country_data[0].code,
-            "created_at": country_data[0].created_at.strftime(Country.datetime_format),
-            "updated_at": country_data[0].updated_at.strftime(Country.datetime_format)
+        output = {
+            "id": result[0].id,
+            "name": result[0].name,
+            "code": result[0].code,
+            "created_at": result[0].created_at.strftime(Country.datetime_format),
+            "updated_at": result[0].updated_at.strftime(Country.datetime_format)
         }
 
-        return jsonify(c)
+        return jsonify(output)
 
     @staticmethod
     def create():
@@ -138,7 +138,7 @@ class Country(Base):
             return repr(exc) + "\n"
 
         try:
-            storage.add('Country', new_country)
+            storage.add(new_country)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to add new Country!"
@@ -187,23 +187,23 @@ class Country(Base):
         """ Class method that returns a specific country's cities"""
         # This method can be replaced partially by the cities_r relationship defined above
 
-        data = []
+        output = []
 
         # If the column is mapped to a private variable, the attr name is mangled like below
         try:
             country_data: Country = storage.get('Country', '_Country__code', country_code)
-            city_data: City = storage.get('City', '_City__country_id', country_data[0].id)
+            result: City = storage.get('City', '_City__country_id', country_data[0].id)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load Country data!"
 
-        for v in city_data:
-            data.append({
-                "id": v.id,
-                "name": v.name,
-                "country_id": v.country_id,
-                "created_at":v.created_at.strftime(Country.datetime_format),
-                "updated_at":v.updated_at.strftime(Country.datetime_format)
+        for row in result:
+            output.append({
+                "id": row.id,
+                "name": row.name,
+                "country_id": row.country_id,
+                "created_at":row.created_at.strftime(Country.datetime_format),
+                "updated_at":row.updated_at.strftime(Country.datetime_format)
             })
 
-        return jsonify(data)
+        return jsonify(output)

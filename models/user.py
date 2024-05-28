@@ -6,6 +6,7 @@ import uuid
 import re
 from flask import jsonify, request, abort
 from sqlalchemy import Column, String, DateTime
+from sqlalchemy.orm import relationship
 from data import storage, Base
 
 class User(Base):
@@ -24,8 +25,8 @@ class User(Base):
     __last_name = Column("last_name", String(128), nullable=True, default="")
     __email = Column("email", String(128), nullable=False)
     __password = Column("password", String(128), nullable=False)
-    # places = relationship("Place", back_populates="user",cascade="delete, delete-orphan")
-    # reviews = relationship("Review", back_populates="user",cascade="delete, delete-orphan")
+    reviews_r = relationship("Review", back_populates="user_r", cascade="delete, delete-orphan")
+    properties_r = relationship("Place", back_populates="owner_r", cascade="delete, delete-orphan")
 
     # Constructor
     def __init__(self, *args, **kwargs):
@@ -108,17 +109,17 @@ class User(Base):
     @staticmethod
     def all():
         """ Class method that returns all users data"""
-        data = []
+        output = []
 
         try:
-            user_data = storage.get('User')
+            result = storage.get('User')
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load users!"
 
-        for row in user_data:
+        for row in result:
             # use print(row.__dict__) to see the contents of the sqlalchemy model objects
-            data.append({
+            output.append({
                 "id": row.id,
                 "first_name": row.first_name,
                 "last_name": row.last_name,
@@ -128,30 +129,30 @@ class User(Base):
                 "updated_at": row.updated_at.strftime(User.datetime_format)
             })
 
-        return jsonify(data)
+        return jsonify(output)
 
     @staticmethod
     def specific(user_id):
         """ Class method that returns a specific user's data"""
-        data = []
+        output = []
 
         try:
-            user_data: User = storage.get('User', 'id', user_id)
+            result: User = storage.get('User', 'id', user_id)
         except IndexError as exc:
             print("Error: ", exc)
             return "User not found!"
 
-        data.append({
-            "id": user_data[0].id,
-            "first_name": user_data[0].first_name,
-            "last_name": user_data[0].last_name,
-            "email": user_data[0].email,
-            "password": user_data[0].password,
-            "created_at": user_data[0].created_at.strftime(User.datetime_format),
-            "updated_at": user_data[0].updated_at.strftime(User.datetime_format)
+        output.append({
+            "id": result[0].id,
+            "first_name": result[0].first_name,
+            "last_name": result[0].last_name,
+            "email": result[0].email,
+            "password": result[0].password,
+            "created_at": result[0].created_at.strftime(User.datetime_format),
+            "updated_at": result[0].updated_at.strftime(User.datetime_format)
         })
 
-        return jsonify(data)
+        return jsonify(output)
 
     @staticmethod
     def create():
@@ -189,7 +190,7 @@ class User(Base):
         }
 
         try:
-            storage.add('User', new_user)
+            storage.add(new_user)
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to add new User!"

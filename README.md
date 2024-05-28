@@ -11,3 +11,5 @@ The backend should be considered 'completed' at this point and you probably don'
  e.g. places.host, reviews.user, countries.cities. Reminds me of the way Laravel does it.
  - Error messages are all using abort 400 now.
  For Part 02, a lot of the API calls were still being made in the command line with cURL. Now, we're changing everything to use abort because the error response is going to be received by an AJAX call and displayed on a webpage.
+ - Standardising of conventions.
+ You can all see that I've did my best to standardise the naming conventions and terminology used within the various methods. This makes it easier for people to remember what is what.
