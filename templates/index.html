@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../static/css/index.css">
+    <link rel="icon" href="../static/img/favicon.ico" />
+    <title>HBnB Evolution Part 03</title>
+</head>
+<body>
+    {% include "header.html" %}
+
+    <div id="menu">
+        <div class="contents">
+            <div class="location">
+                <div class="title">Destination</div>
+                <div class="choice">
+                    <span>
+                        <label>
+                            <input type="radio" name="destination" value="all" checked/>
+                            <span>All</span>
+                        </label>
+                    </span>
+                    <span>
+                        <label>
+                            <input type="radio" name="destination" value="singapore" checked/>
+                            <span>Singapore</span>
+                        </label>
+                    </span>
+                    <span>
+                        <label>
+                            <input type="radio" name="destination" value="malaysia" checked/>
+                            <span>Malaysia</span>
+                        </label>
+                    </span>
+                    <span>
+                        <label>
+                            <input type="radio" name="destination" value="australia" checked/>
+                            <span>Australia</span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+            <div class="amenities">
+                <div class="title">Amenities</div>
+                <div class="choice">
+                    <span>
+                        <label>
+                            <input type="radio" name="amenities" value="anything" checked/>
+                            <span>Anything</span>
+                        </label>
+                    </span>
+                    <span>
+                        <label>
+                            <input type="radio" name="amenities" value="specific"/>
+                            <span>Specific Ones</span>
+                            <button>Please select &raquo;</button>
+                        </label>
+                    </span>
+                </div>
+            </div>
+            <div class="search">
+                <button>Search &raquo;</button>
+            </div>
+        </div>
+    </div>
+
+    {% include "footer.html" %}
+</body>
+</html>

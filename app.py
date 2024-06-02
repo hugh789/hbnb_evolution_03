@@ -1,24 +1,21 @@
 #!/usr/bin/python3
 
-from flask import Flask
+from flask import Flask, render_template
 from api.v1 import api_routes
 
 app = Flask(__name__)
 app.register_blueprint(api_routes)
 
-
-# TODO: Do something about these
 @app.route('/')
-def hello_world():
-    """ Hello world """
-    return 'Hello World'
+def index():
+    """ Landing page for the site """
+    # you MUST have a 'templates' folder
+    return render_template('index.html')
 
-@app.route('/', methods=["POST"])
-def hello_world_post():
-    """ Hello world endpoint for POST requests """
-    # curl -X POST localhost:5000/
-    return "hello world\n"
-
+@app.route('/status')
+def status():
+    """ Return server status """
+    return 'OK'
 
 # Set debug=True for the server to auto-reload when there are changes
 if __name__ == '__main__':
