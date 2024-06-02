@@ -22,51 +22,57 @@
 
     <div id="menu">
         <div class="contents">
-            <div class="location">
+            <div class="destination">
                 <div class="title">Destination</div>
                 <div class="choice">
                     <span>
                         <label>
-                            <input type="radio" name="destination" value="all" checked/>
+                            <input type="radio" name="destination-radio-group" value="all" checked />
                             <span>All</span>
                         </label>
                     </span>
+                    {% for country in countries %}
                     <span>
                         <label>
-                            <input type="radio" name="destination" value="singapore" checked/>
-                            <span>Singapore</span>
+                            <input type="radio" name="destination-radio-group" value="{{ country.id }}" />
+                            <span>{{ country.name }}</span>
                         </label>
                     </span>
-                    <span>
-                        <label>
-                            <input type="radio" name="destination" value="malaysia" checked/>
-                            <span>Malaysia</span>
-                        </label>
-                    </span>
-                    <span>
-                        <label>
-                            <input type="radio" name="destination" value="australia" checked/>
-                            <span>Australia</span>
-                        </label>
-                    </span>
+                    {% endfor %}
                 </div>
             </div>
             <div class="amenities">
                 <div class="title">Amenities</div>
-                <div class="choice">
+                <div class="choice" specific-submenu="closed">
                     <span>
                         <label>
-                            <input type="radio" name="amenities" value="anything" checked/>
+                            <input type="radio" name="amenities-radio-group" value="anything" checked />
                             <span>Anything</span>
                         </label>
                     </span>
                     <span>
                         <label>
-                            <input type="radio" name="amenities" value="specific"/>
+                            <input type="radio" name="amenities-radio-group" value="specific" />
                             <span>Specific Ones</span>
-                            <button>Please select &raquo;</button>
+                            <button>
+                                <span>Please select</span>
+                                <span class="arrows">&raquo;</span>
+                            </button>
                         </label>
                     </span>
+                    <div class="submenu">
+                        <div class="items">
+                            {% for amenity in amenities %}
+                            <label>
+                                <input type="checkbox" value="{{ amenity.id }}" checked>
+                                <span>{{ amenity.name }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                        <div class="confirm">
+                            <button id="amenities-specific-ok">OK</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="search">

@@ -73,7 +73,7 @@ class Country(Base):
 
     # --- Static methods ---
     @staticmethod
-    def all():
+    def all(returnRawResult = False):
         """ Class method that returns all countries data"""
         output = []
 
@@ -82,6 +82,9 @@ class Country(Base):
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load countries!"
+
+        if returnRawResult:
+            return result
 
         for row in result:
             output.append({

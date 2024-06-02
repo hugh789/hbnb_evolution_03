@@ -84,15 +84,63 @@ header .status > .bubble.down {
   font-size: 1.6rem;
   padding: 10px;
 }
-#menu .contents > .location {
-  flex: 4;
+#menu .contents > .destination {
+  flex: 7;
 }
 #menu .contents > .amenities {
   margin-left: 20px;
-  flex: 3;
+  flex: 4;
+}
+#menu .contents > .amenities .choice {
+  position: relative;
+}
+#menu .contents > .amenities .choice button {
+  padding: 5px 5px 2px 5px;
+}
+#menu .contents > .amenities .choice button > .arrows {
+  display: inline-block;
+}
+#menu .contents > .amenities .choice[specific-submenu=open] button .arrows {
+  transform: rotate(90deg);
+}
+#menu .contents > .amenities .choice .submenu {
+  width: 260px;
+  background-color: #E5E5E5;
+  padding: 10px;
+  border-radius: 3px;
+  top: 30px;
+  right: 0;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #999;
+  position: absolute;
+}
+#menu .contents > .amenities .choice .submenu > .items {
+  display: flex;
+  flex-wrap: wrap;
+}
+#menu .contents > .amenities .choice .submenu > .items > label {
+  padding: 5px 8px 2px 8px;
+  margin: 5px;
+  user-select: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+#menu .contents > .amenities .choice .submenu > .items > label:hover {
+  background-color: #D5D5D5;
+}
+#menu .contents > .amenities .choice .submenu > .items > label > input {
+  margin: 0;
+}
+#menu .contents > .amenities .choice .submenu > .confirm {
+  padding-top: 10px;
+  border-top: 1px solid #999;
+  text-align: center;
+}
+#menu .contents > .amenities .choice .submenu > .confirm button {
+  width: 120px;
 }
 #menu .contents > .search {
-  width: 180px;
+  width: 160px;
   margin-left: 20px;
   align-items: center;
 }
@@ -103,37 +151,34 @@ header .status > .bubble.down {
   font-size: 2rem;
   cursor: pointer;
 }
-#menu .contents > .location .title, #menu .contents .amenities .title {
+#menu .contents > .destination > .title, #menu .contents .amenities > .title {
   font-size: 2.2rem;
   border-bottom: 1px solid #999;
   margin-bottom: 10px;
   padding-top: 5px;
 }
-#menu .contents > .location .choice, #menu .contents .amenities .choice {
+#menu .contents > .destination > .choice, #menu .contents .amenities > .choice {
   font-size: 1.8rem;
 }
-#menu .contents > .location .choice > span, #menu .contents .amenities .choice > span {
+#menu .contents > .destination > .choice > span, #menu .contents .amenities > .choice > span {
   user-select: none;
 }
-#menu .contents > .location .choice > span > label, #menu .contents .amenities .choice > span > label {
+#menu .contents > .destination > .choice > span > label, #menu .contents .amenities > .choice > span > label {
   padding: 8px 5px 5px 5px;
   border: 1px solid rgba(0, 0, 0, 0);
 }
-#menu .contents > .location .choice > span > label:hover, #menu .contents .amenities .choice > span > label:hover {
+#menu .contents > .destination > .choice > span > label:hover, #menu .contents .amenities > .choice > span > label:hover {
   border: 1px solid rgba(0, 0, 0, 0.3);
   background-color: #E5E5E5;
   border-radius: 5px;
   cursor: pointer;
 }
-#menu .contents > .location .choice > span > label:active, #menu .contents .amenities .choice > span > label:active {
+#menu .contents > .destination > .choice > span > label:active, #menu .contents .amenities > .choice > span > label:active {
   border: 1px solid rgba(0, 0, 0, 0.5);
   background-color: #C5C5C5;
 }
-#menu .contents > .location .choice input[type=radio], #menu .contents .amenities .choice input[type=radio] {
+#menu .contents > .destination > .choice > span > label > input[type=radio], #menu .contents .amenities > .choice > span > label > input[type=radio] {
   margin-right: 0px;
-}
-#menu .contents > .location .choice button, #menu .contents .amenities .choice button {
-  padding: 5px 2px 2px 2px;
 }
 
 footer {

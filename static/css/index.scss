@@ -92,17 +92,78 @@ header {
         font-size: 1.6rem;
         padding: 10px;
 
-        > .location {
-            flex: 4;
+        > .destination {
+            flex: 7;
         }
     
         > .amenities {
             margin-left: 20px;
-            flex: 3;
+            flex: 4;
+
+            .choice {
+                position: relative;
+
+                button {
+                    padding: 5px 5px 2px 5px;
+
+                    > .arrows {
+                        display: inline-block;
+                    }
+                }
+
+                &[specific-submenu=open] {
+                    button .arrows {
+                        transform: rotate(90deg);
+                    }
+                }
+
+                .submenu {
+                    width: 260px;
+                    background-color: #E5E5E5;
+                    padding: 10px;
+                    border-radius: 3px;
+                    top: 30px;
+                    right: 0;
+                    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+                    border: 1px solid #999;
+                    position: absolute;
+
+                    > .items {
+                        display: flex;
+                        flex-wrap: wrap;
+
+                        > label {
+                            padding: 5px 8px 2px 8px;
+                            margin: 5px;
+                            user-select: none;
+                            cursor: pointer;
+                            border-radius: 3px;
+    
+                            &:hover {
+                                background-color: #D5D5D5;
+                            }
+    
+                            > input {
+                                margin: 0;
+                            }
+                        }
+                    }
+
+                    >.confirm {
+                        padding-top: 10px;
+                        border-top: 1px solid #999;
+                        text-align: center;
+
+                        button {
+                            width: 120px;
+                        }
+                    }
+                }
+            }
         }
     
         > .search {
-            width: 180px;
+            width: 160px;
             margin-left: 20px;
             align-items: center;
     
@@ -114,16 +175,17 @@ header {
                 cursor: pointer;
             }
         }
-    
-        > .location, .amenities {
-            .title {
+
+        // Shared styles between the destination and amenities menu sections
+        > .destination, .amenities {
+            > .title {
                 font-size: 2.2rem;
                 border-bottom: 1px solid #999;
                 margin-bottom: 10px;
                 padding-top: 5px;
             }
     
-            .choice {
+            > .choice {
                 font-size: 1.8rem;
     
                 > span {
@@ -144,15 +206,11 @@ header {
                             border: 1px solid rgba(0,0,0,0.5);
                             background-color: #C5C5C5;
                         }
+
+                        > input[type=radio] {
+                            margin-right: 0px;
+                        }
                     }                   
-                }
-    
-                input[type=radio] {
-                    margin-right: 0px;
-                }
-    
-                button {
-                    padding: 5px 2px 2px 2px;
                 }
             }
         }

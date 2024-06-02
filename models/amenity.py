@@ -55,7 +55,7 @@ class Amenity(Base):
 
     # --- Static methods ---
     @staticmethod
-    def all():
+    def all(returnRawResult=False):
         """ Class method that returns all amenities data"""
         output = []
 
@@ -64,6 +64,9 @@ class Amenity(Base):
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load amenities!"
+
+        if returnRawResult:
+            return result
 
         for row in result:
             output.append({
