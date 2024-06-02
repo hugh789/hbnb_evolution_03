@@ -7,18 +7,17 @@ hbnb = {
     amenRadios: [],
 
     destRadiosInit: function() {
+        // set up the onclick events for the Destinations radios
         // TODO:
     },
     amenRadiosInit: function() {
+        // set up the onclick events for the Amenities radios + button
+        // Note that the button will eat up the click event so the radio won't receive it.
+        // Let's do something about that.
         // TODO:
     },
     init: function() {
-        // 1. set up the onclick events for the Destinations radios
         hbnb.destRadiosInit();
-
-        // 2. set up the onclick events for the Amenities radios + button
-        // Note that the button will eat up the click event so the radio won't receive it.
-        // Let's do something about that.
         hbnb.amenRadiosInit();
     }
 }
