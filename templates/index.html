@@ -8,10 +8,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../static/css/index.css">
     <link rel="icon" href="../static/img/favicon.ico" />
+    <script type="text/javascript" src="../static/js/index.js"></script>
     <title>HBnB Evolution Part 03</title>
 </head>
-<body>
+<body pg-name="index" js="off">
     {% include "header.html" %}
+
+    <div id="no-js">
+        <!-- There will be a brief flash-of-unstyled-content where this message appears -->
+        <!-- How do we fix this this with the Javascript that is already available in index.js? -->
+        <h1>Please enable Javascript in your browser to view the site!</h1>
+    </div>
 
     <div id="menu">
         <div class="contents">

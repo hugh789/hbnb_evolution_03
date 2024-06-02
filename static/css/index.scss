@@ -3,10 +3,32 @@ html, body {
     padding: 0;
     font-family: "Josefin Sans", sans-serif;
     font-size: 10px;
+    background-color: #FFF;
 }
 
 button {
     font-family: "Josefin Sans", sans-serif;
+}
+
+body[js=off] {
+    #no-js {
+        display: flex;
+        z-index: 9999;
+    }
+}
+
+#no-js {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #FFF;
+    align-content: center;
+    text-align: center;
+    font-size: 5rem;
+    z-index: 9999;
+    display: none;
 }
 
 header {
@@ -89,6 +111,7 @@ header {
                 height: 100%;
                 font-weight: 500;
                 font-size: 2rem;
+                cursor: pointer;
             }
         }
     
@@ -104,17 +127,24 @@ header {
                 font-size: 1.8rem;
     
                 > span {
+                    // prevent accidental highlighting of the text when choosing option
+                    user-select: none; 
+
                     > label {
                         padding: 8px 5px 5px 5px;
                         border: 1px solid rgba(0,0,0,0);
+
                         &:hover {
-                            border: 1px solid rgba(0,0,0,0.5);
+                            border: 1px solid rgba(0,0,0,0.3);
                             background-color: #E5E5E5;
                             border-radius: 5px;
                             cursor: pointer;
                         }
-                    }
-                    
+                        &:active {
+                            border: 1px solid rgba(0,0,0,0.5);
+                            background-color: #C5C5C5;
+                        }
+                    }                   
                 }
     
                 input[type=radio] {
