@@ -66,17 +66,34 @@ hbnb = {
     },
     searchInit: function() {
         // NOTE: I have decided in the backend that an empty array means "all" / "anything"
-        data = {
-            "destination": [],
-            "amenities": []
-        }
-
         let searchBtn = document.getElementById("btn-menu-search")
         searchBtn.addEventListener('click', function() {
+            data = {
+                "destination": [],
+                "amenities": []
+            }
+
             // 1. Check the selected Destination radio and get the value
             // 2. Check the selected Amenities radio and get the value
             // 2.a. if the Specific radio is selected, scan the submenu checkboxes to get the values
             // 3. Finally, perform a POST request to the Search API endpoint
+
+            // Steps 1 & 2
+            let destRadioChoice = document.querySelector("#menu >.contents >.destination >.choice input[type='radio']:checked");
+            let amenRadioChoice = document.querySelector("#menu >.contents >.amenities >.choice input[type='radio']:checked");
+    
+            if (destRadioChoice.value != "") {
+                data.destination.push(destRadioChoice.value)
+            }
+            if (amenRadioChoice.value == "specific") {
+                // Step 2a
+                let selectedAmenitiesCheckboxes = document.querySelectorAll("#amenities-submenu >.items input[type='checkbox']:checked");
+                for (c of selectedAmenitiesCheckboxes) {
+                    data.amenities.push(c.value)
+                }
+            }
+
+            console.log(data)
         })
     },
     init: function() {
