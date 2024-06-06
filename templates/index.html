@@ -6,6 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="../static/fontawesome/css/all.css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet" href="../static/css/index.css">
     <link rel="icon" href="../static/img/favicon.ico" />
     <script type="text/javascript" src="../static/js/index.js"></script>
@@ -16,7 +17,7 @@
 
     <div id="no-js">
         <!-- There will be a brief flash-of-unstyled-content where this message appears -->
-        <!-- How do we fix this this with the Javascript that is already available in index.js? -->
+        <!-- How do we fix this this? -->
         <h1>Please enable Javascript in your browser to view the site!</h1>
     </div>
 
@@ -34,7 +35,7 @@
                     {% for country in countries %}
                     <span>
                         <label>
-                            <input type="radio" name="destination-radio-group" value="{{ country.id }}" />
+                            <input type="radio" name="destination-radio-group" value="{{ country.code }}" />
                             <span>{{ country.name }}</span>
                         </label>
                     </span>
@@ -42,8 +43,14 @@
                 </div>
             </div>
             <div class="amenities">
-                <div class="title">Amenities</div>
-                <div class="choice" specific-submenu="closed">
+                <div class="title">
+                    <span class="text">Amenities</span>
+                    <span class="selected">
+                        <span class="count">0</span>
+                        <span>selected</span>
+                    </span>
+                </div>
+                <div class="choice">
                     <span>
                         <label>
                             <input type="radio" name="amenities-radio-group" value="anything" checked />
@@ -54,13 +61,16 @@
                         <label>
                             <input type="radio" name="amenities-radio-group" value="specific" />
                             <span>Specific Ones</span>
-                            <button>
+                            <button id="btn-specific-amenities-select">
                                 <span>Please select</span>
                                 <span class="arrows">&raquo;</span>
                             </button>
                         </label>
                     </span>
-                    <div class="submenu">
+                    <div id="amenities-submenu" state="hide">
+                        <div class="instruct">
+                            Choose the ones that must be present
+                        </div>
                         <div class="items">
                             {% for amenity in amenities %}
                             <label>
@@ -70,13 +80,13 @@
                             {% endfor %}
                         </div>
                         <div class="confirm">
-                            <button id="amenities-specific-ok">OK</button>
+                            <button id="btn-specific-amenities-ok">OK</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="search">
-                <button>Search &raquo;</button>
+                <button id="btn-menu-search">Search &raquo;</button>
             </div>
         </div>
     </div>

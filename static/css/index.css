@@ -1,4 +1,5 @@
 html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: "Josefin Sans", sans-serif;
@@ -91,65 +92,29 @@ header .status > .bubble.down {
   margin-left: 20px;
   flex: 4;
 }
+#menu .contents > .amenities .title {
+  display: flex;
+}
+#menu .contents > .amenities .title > .text {
+  flex: 1;
+}
+#menu .contents > .amenities .title > .selected {
+  font-size: 1.2rem;
+  align-content: center;
+}
 #menu .contents > .amenities .choice {
   position: relative;
 }
 #menu .contents > .amenities .choice button {
   padding: 5px 5px 2px 5px;
+  cursor: pointer;
 }
 #menu .contents > .amenities .choice button > .arrows {
   display: inline-block;
+  transition: all 0.3s;
 }
-#menu .contents > .amenities .choice[specific-submenu=open] button .arrows {
+#menu .contents > .amenities .choice input[type=radio][value=specific]:checked ~ button .arrows {
   transform: rotate(90deg);
-}
-#menu .contents > .amenities .choice .submenu {
-  width: 260px;
-  background-color: #E5E5E5;
-  padding: 10px;
-  border-radius: 3px;
-  top: 30px;
-  right: 0;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-  border: 1px solid #999;
-  position: absolute;
-}
-#menu .contents > .amenities .choice .submenu > .items {
-  display: flex;
-  flex-wrap: wrap;
-}
-#menu .contents > .amenities .choice .submenu > .items > label {
-  padding: 5px 8px 2px 8px;
-  margin: 5px;
-  user-select: none;
-  cursor: pointer;
-  border-radius: 3px;
-}
-#menu .contents > .amenities .choice .submenu > .items > label:hover {
-  background-color: #D5D5D5;
-}
-#menu .contents > .amenities .choice .submenu > .items > label > input {
-  margin: 0;
-}
-#menu .contents > .amenities .choice .submenu > .confirm {
-  padding-top: 10px;
-  border-top: 1px solid #999;
-  text-align: center;
-}
-#menu .contents > .amenities .choice .submenu > .confirm button {
-  width: 120px;
-}
-#menu .contents > .search {
-  width: 160px;
-  margin-left: 20px;
-  align-items: center;
-}
-#menu .contents > .search > button {
-  width: 100%;
-  height: 100%;
-  font-weight: 500;
-  font-size: 2rem;
-  cursor: pointer;
 }
 #menu .contents > .destination > .title, #menu .contents .amenities > .title {
   font-size: 2.2rem;
@@ -166,6 +131,7 @@ header .status > .bubble.down {
 #menu .contents > .destination > .choice > span > label, #menu .contents .amenities > .choice > span > label {
   padding: 8px 5px 5px 5px;
   border: 1px solid rgba(0, 0, 0, 0);
+  display: inline-block;
 }
 #menu .contents > .destination > .choice > span > label:hover, #menu .contents .amenities > .choice > span > label:hover {
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -179,6 +145,72 @@ header .status > .bubble.down {
 }
 #menu .contents > .destination > .choice > span > label > input[type=radio], #menu .contents .amenities > .choice > span > label > input[type=radio] {
   margin-right: 0px;
+}
+#menu .contents > .search {
+  width: 160px;
+  margin-left: 20px;
+  align-items: center;
+}
+#menu .contents > .search > button {
+  width: 100%;
+  height: 100%;
+  font-weight: 500;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+#amenities-submenu {
+  width: 280px;
+  background-color: #E5E5E5;
+  padding: 10px;
+  border-radius: 3px;
+  top: 30px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #999;
+  position: absolute;
+  transition: all 0.3s;
+}
+#amenities-submenu[state=hide] {
+  opacity: 0;
+  z-index: -2;
+  right: -50px;
+}
+#amenities-submenu[state=show] {
+  opacity: 1;
+  z-index: 2;
+  right: 0;
+}
+#amenities-submenu > .instruct {
+  font-size: 1.6rem;
+  border-bottom: 1px solid #999;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+#amenities-submenu > .items {
+  display: flex;
+  flex-wrap: wrap;
+}
+#amenities-submenu > .items > label {
+  padding: 5px 8px 2px 8px;
+  margin: 5px;
+  user-select: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+#amenities-submenu > .items > label:hover {
+  background-color: #D5D5D5;
+}
+#amenities-submenu > .items > label > input {
+  margin: 0;
+}
+#amenities-submenu > .confirm {
+  padding-top: 10px;
+  border-top: 1px solid #999;
+  text-align: center;
+}
+#amenities-submenu > .confirm button {
+  width: 120px;
+  cursor: pointer;
 }
 
 footer {

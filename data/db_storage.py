@@ -5,7 +5,7 @@ import importlib
 from os import getenv
 from copy import deepcopy
 from datetime import datetime
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text, select
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 class DBStorage():
@@ -166,3 +166,26 @@ class DBStorage():
         ).all()
 
         return len(rows) == len(ids_list)
+
+    def country_places(self, country_code = ""):
+        """ The big one! """
+        query_txt = "SELECT co.code AS country_code, ci.name AS city_name, pl.* \
+            FROM countries co \
+            LEFT JOIN cities ci ON co.id = ci.country_id \
+            LEFT JOIN places pl ON ci.id = pl.city_id"
+
+        # q = self.__session.query(Country, City, Place
+        #                          ).filter(Country.id == getattr(City, '_City__country_id')
+        #                                   ).filter(City.id == getattr(Place, '_Place__city_id'))
+
+        # In case a specific country was selected
+        if country_code != "":
+            query_txt = query_txt + " WHERE co.country_code = '" + country_code + "'"
+
+        # Note that I'm doing things the wrong way by using raw SQL.
+        # Ideally I should be using parametric queries but unfortunately I can't get them to work lol.
+        sql = text(query_txt)
+        result = self.__session.execute(sql)
+
+        return result
+        

@@ -11,11 +11,14 @@ app.register_blueprint(api_routes)
 @app.route('/')
 def index():
     """ Landing page for the site """
-    # you MUST have a 'templates' folder
+    # you MUST have the 'templates' and 'static' folders
 
+    # Load the data we need before passing it to the template
     countries = Country.all(True)
     amenities = Amenity.all(True)
-    return render_template('index.html', countries=countries, amenities=amenities)
+    country_city_places = Country.places()
+
+    return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places)
 
 @app.route('/status')
 def status():

@@ -1,4 +1,5 @@
 html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
     font-family: "Josefin Sans", sans-serif;
@@ -100,82 +101,39 @@ header {
             margin-left: 20px;
             flex: 4;
 
+            .title {
+                display: flex;
+
+                >.text {
+                    flex: 1;
+                }
+
+                >.selected {
+                    font-size: 1.2rem;
+                    align-content: center;
+                }
+            }
+
             .choice {
                 position: relative;
 
                 button {
                     padding: 5px 5px 2px 5px;
+                    cursor: pointer;
 
                     > .arrows {
                         display: inline-block;
+                        transition: all 0.3s;
                     }
                 }
 
-                &[specific-submenu=open] {
-                    button .arrows {
-                        transform: rotate(90deg);
-                    }
-                }
-
-                .submenu {
-                    width: 260px;
-                    background-color: #E5E5E5;
-                    padding: 10px;
-                    border-radius: 3px;
-                    top: 30px;
-                    right: 0;
-                    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
-                    border: 1px solid #999;
-                    position: absolute;
-
-                    > .items {
-                        display: flex;
-                        flex-wrap: wrap;
-
-                        > label {
-                            padding: 5px 8px 2px 8px;
-                            margin: 5px;
-                            user-select: none;
-                            cursor: pointer;
-                            border-radius: 3px;
-    
-                            &:hover {
-                                background-color: #D5D5D5;
-                            }
-    
-                            > input {
-                                margin: 0;
-                            }
-                        }
-                    }
-
-                    >.confirm {
-                        padding-top: 10px;
-                        border-top: 1px solid #999;
-                        text-align: center;
-
-                        button {
-                            width: 120px;
-                        }
-                    }
+                // the arrows in the utton point down when 'specific' is selected
+                input[type=radio][value=specific]:checked ~ button .arrows{
+                    transform: rotate(90deg);
                 }
             }
         }
     
-        > .search {
-            width: 160px;
-            margin-left: 20px;
-            align-items: center;
-    
-            > button {
-                width: 100%;
-                height: 100%;
-                font-weight: 500;
-                font-size: 2rem;
-                cursor: pointer;
-            }
-        }
-
         // Shared styles between the destination and amenities menu sections
         > .destination, .amenities {
             > .title {
@@ -195,6 +153,7 @@ header {
                     > label {
                         padding: 8px 5px 5px 5px;
                         border: 1px solid rgba(0,0,0,0);
+                        display: inline-block;
 
                         &:hover {
                             border: 1px solid rgba(0,0,0,0.3);
@@ -213,6 +172,84 @@ header {
                     }                   
                 }
             }
+        }
+
+        > .search {
+            width: 160px;
+            margin-left: 20px;
+            align-items: center;
+    
+            > button {
+                width: 100%;
+                height: 100%;
+                font-weight: 500;
+                font-size: 2rem;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+#amenities-submenu {
+    width: 280px;
+    background-color: #E5E5E5;
+    padding: 10px;
+    border-radius: 3px;
+    top: 30px;
+    // right: 0;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+    border: 1px solid #999;
+    position: absolute;
+    transition: all 0.3s;
+
+    &[state=hide] {
+        opacity: 0;
+        z-index: -2;
+        right: -50px;
+    }
+
+    &[state=show] {
+        opacity: 1;
+        z-index: 2;
+        right: 0;
+    }
+
+    > .instruct {
+        font-size: 1.6rem;
+        border-bottom: 1px solid #999;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+    }
+
+    > .items {
+        display: flex;
+        flex-wrap: wrap;
+
+        > label {
+            padding: 5px 8px 2px 8px;
+            margin: 5px;
+            user-select: none;
+            cursor: pointer;
+            border-radius: 3px;
+
+            &:hover {
+                background-color: #D5D5D5;
+            }
+
+            > input {
+                margin: 0;
+            }
+        }
+    }
+
+    >.confirm {
+        padding-top: 10px;
+        border-top: 1px solid #999;
+        text-align: center;
+
+        button {
+            width: 120px;
+            cursor: pointer;
         }
     }
 }

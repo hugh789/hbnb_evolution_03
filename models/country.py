@@ -73,7 +73,7 @@ class Country(Base):
 
     # --- Static methods ---
     @staticmethod
-    def all(returnRawResult = False):
+    def all(return_raw_result = False):
         """ Class method that returns all countries data"""
         output = []
 
@@ -83,7 +83,7 @@ class Country(Base):
             print("Error: ", exc)
             return "Unable to load countries!"
 
-        if returnRawResult:
+        if return_raw_result:
             return result
 
         for row in result:
@@ -210,3 +210,35 @@ class Country(Base):
             })
 
         return jsonify(output)
+
+    @staticmethod
+    def places(country_code = ""):
+        """ The big one! Everything we need is in here! """
+        output = {}
+        result = storage.country_places(country_code)
+
+        for row in result:
+            # let's start grouping by country code
+            if row.country_code not in output:
+                output[row.country_code] = {}
+
+            if row.city_name not in output[row.country_code]:
+                output[row.country_code][row.city_name] = []
+
+            if row.city_id is not None:
+                output[row.country_code][row.city_name].append({
+                    "city_name": row.city_name,
+                    "id": row.id,
+                    "name": row.name,
+                    "description": row.description,
+                    "address": row.address,
+                    "number_of_rooms": row.number_of_rooms,
+                    "number_of_bathrooms": row.number_of_bathrooms,
+                    "max_guests": row.max_guests,
+                    "price_per_night": row.price_per_night,
+                    "latitude": row.latitude,
+                    "longitude": row.longitude,
+                    "host_id": row.host_id,
+                })
+
+        return output
