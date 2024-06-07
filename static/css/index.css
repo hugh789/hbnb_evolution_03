@@ -101,6 +101,10 @@ header .status > .bubble.down {
 #menu .contents > .amenities .title > .selected {
   font-size: 1.2rem;
   align-content: center;
+  display: inline-block;
+}
+#menu .contents > .amenities .title > .selected[state=hide] {
+  display: none;
 }
 #menu .contents > .amenities .choice {
   position: relative;
@@ -113,9 +117,6 @@ header .status > .bubble.down {
   display: inline-block;
   transition: all 0.3s;
 }
-#menu .contents > .amenities .choice input[type=radio][value=specific]:checked ~ button .arrows {
-  transform: rotate(90deg);
-}
 #menu .contents > .destination > .title, #menu .contents .amenities > .title {
   font-size: 2.2rem;
   border-bottom: 1px solid #999;
@@ -123,7 +124,7 @@ header .status > .bubble.down {
   padding-top: 5px;
 }
 #menu .contents > .destination > .choice, #menu .contents .amenities > .choice {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
 }
 #menu .contents > .destination > .choice > span, #menu .contents .amenities > .choice > span {
   user-select: none;
@@ -179,6 +180,9 @@ header .status > .bubble.down {
   opacity: 1;
   z-index: 2;
   right: 0;
+}
+#amenities-submenu[state=show] ~ span #btn-specific-amenities-select .arrows {
+  transform: rotate(90deg);
 }
 #amenities-submenu > .instruct {
   font-size: 1.6rem;

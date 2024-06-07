@@ -111,6 +111,11 @@ header {
                 >.selected {
                     font-size: 1.2rem;
                     align-content: center;
+                    display: inline-block;
+
+                    &[state=hide] {
+                        display: none;
+                    }
                 }
             }
 
@@ -126,11 +131,6 @@ header {
                         transition: all 0.3s;
                     }
                 }
-
-                // the arrows in the utton point down when 'specific' is selected
-                input[type=radio][value=specific]:checked ~ button .arrows{
-                    transform: rotate(90deg);
-                }
             }
         }
     
@@ -144,7 +144,7 @@ header {
             }
     
             > .choice {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
     
                 > span {
                     // prevent accidental highlighting of the text when choosing option
@@ -212,7 +212,14 @@ header {
         opacity: 1;
         z-index: 2;
         right: 0;
+
+        // the arrows in the button point down when the submenu is open
+        ~ span #btn-specific-amenities-select .arrows {
+            transform: rotate(90deg);
+        }
     }
+
+
 
     > .instruct {
         font-size: 1.6rem;

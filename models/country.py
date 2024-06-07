@@ -212,11 +212,66 @@ class Country(Base):
         return jsonify(output)
 
     @staticmethod
-    def places(country_code = ""):
+    def places(country_code = "", amenities = ""):
         """ The big one! Everything we need is in here! """
-        output = {}
-        result = storage.country_places(country_code)
 
+        # --- Full SQL query Example ---
+        # SELECT id AS place_id, country_code, city_id, city_name, host_id, name, description, address, number_of_rooms, number_of_bathrooms, max_guests, price_per_night, latitude, longitude, GROUP_CONCAT(amenity_name)
+        # FROM (
+        #     SELECT co.code AS country_code, ci.name AS city_name, pl.*, am.name AS amenity_name
+        #     FROM countries co
+        #     LEFT JOIN cities ci ON co.id = ci.country_id
+        #     LEFT JOIN places pl ON ci.id = pl.city_id
+        #     LEFT JOIN place_amenity pa ON pl.id = pa.place_id
+        #     LEFT JOIN amenities am on pa.amenity_id = am.id
+        #     WHERE am.id IN ('036bc824-74ed-44dc-a183-1ab6c4878fc2', '2ec8cf22-e5ea-4a1f-aedd-89f15fcc60e9')
+        # ) x
+        # GROUP BY country_code, city_id, id
+
+        # Note that the WHERE clause in the subquery may be different depending on what was selected in the form
+        # Let's assemble the subquery first
+
+        output = {}
+
+        where_and = " WHERE "
+        query_txt = "SELECT co.code AS country_code, ci.name AS city_name, pl.*, am.name as amenity_name \
+            FROM countries co \
+            LEFT JOIN cities ci ON co.id = ci.country_id \
+            LEFT JOIN places pl ON ci.id = pl.city_id \
+            LEFT JOIN place_amenity pa ON pl.id = pa.place_id \
+            LEFT JOIN amenities am on pa.amenity_id = am.id "
+
+        # If specific amenities were selected
+        if amenities != "" and len(amenities) > 0:
+            # Assemble the comma-separated list
+            # 1. wrap each item in the list with inverted commas
+            i = 0
+            for a in amenities:
+                amenities[i] = "'" + a + "'"
+                i = i + 1
+
+            # 2. then turn it ionto a comma separated string
+            amenities_comma_list = ",".join(amenities)
+
+            query_txt = query_txt + "WHERE am.id IN (" + amenities_comma_list + ")"
+            where_and = " AND "
+
+        # If a specific country was selected
+        if country_code != "":
+            query_txt = query_txt + where_and + "co.code = '" + country_code + "'"
+
+        # Subquery complete!
+        # Now, let's wrap it in the bigger GROUP BY query
+        query_txt = "SELECT id AS place_id, country_code, city_id, city_name, host_id, \
+            name, description, address, number_of_rooms, number_of_bathrooms, \
+            max_guests, price_per_night, latitude, longitude, \
+            GROUP_CONCAT(amenity_name) as amenities \
+            FROM (" + query_txt + ") x GROUP BY country_code, city_id, id"
+
+        # This should give condense the results with the same country + city + place id
+        # Amenities names will be squashed using GROUP_CONCAT into a comma separated string
+
+        result = storage.raw_sql(query_txt)
         for row in result:
             # let's start grouping by country code
             if row.country_code not in output:
@@ -228,7 +283,7 @@ class Country(Base):
             if row.city_id is not None:
                 output[row.country_code][row.city_name].append({
                     "city_name": row.city_name,
-                    "id": row.id,
+                    "place_id": row.place_id,
                     "name": row.name,
                     "description": row.description,
                     "address": row.address,
@@ -239,6 +294,7 @@ class Country(Base):
                     "latitude": row.latitude,
                     "longitude": row.longitude,
                     "host_id": row.host_id,
+                    "amenities": row.amenities
                 })
 
         return output

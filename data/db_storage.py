@@ -167,23 +167,10 @@ class DBStorage():
 
         return len(rows) == len(ids_list)
 
-    def country_places(self, country_code = ""):
-        """ The big one! """
-        query_txt = "SELECT co.code AS country_code, ci.name AS city_name, pl.* \
-            FROM countries co \
-            LEFT JOIN cities ci ON co.id = ci.country_id \
-            LEFT JOIN places pl ON ci.id = pl.city_id"
-
-        # q = self.__session.query(Country, City, Place
-        #                          ).filter(Country.id == getattr(City, '_City__country_id')
-        #                                   ).filter(City.id == getattr(Place, '_Place__city_id'))
-
-        # In case a specific country was selected
-        if country_code != "":
-            query_txt = query_txt + " WHERE co.country_code = '" + country_code + "'"
-
+    def raw_sql(self, query_txt):
+        """ The absolutely worst possible way to access the database using an ORM """
         # Note that I'm doing things the wrong way by using raw SQL.
-        # Ideally I should be using parametric queries but unfortunately I can't get them to work lol.
+        # Ideally I should be using parametric queries but I couldn't get them to work.
         sql = text(query_txt)
         result = self.__session.execute(sql)
 

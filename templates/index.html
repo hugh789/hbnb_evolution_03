@@ -22,7 +22,7 @@
     </div>
 
     <div id="menu">
-        <div class="contents">
+        <form class="contents" action="/" method="post">
             <div class="destination">
                 <div class="title">Destination</div>
                 <div class="choice">
@@ -45,28 +45,12 @@
             <div class="amenities">
                 <div class="title">
                     <span class="text">Amenities</span>
-                    <span class="selected">
+                    <span class="selected" state="hide">
                         <span class="count">0</span>
                         <span>selected</span>
                     </span>
                 </div>
                 <div class="choice">
-                    <span>
-                        <label>
-                            <input type="radio" name="amenities-radio-group" value="" checked />
-                            <span>Anything</span>
-                        </label>
-                    </span>
-                    <span>
-                        <label>
-                            <input type="radio" name="amenities-radio-group" value="specific" />
-                            <span>Specific Ones</span>
-                            <button id="btn-specific-amenities-select">
-                                <span>Please select</span>
-                                <span class="arrows">&raquo;</span>
-                            </button>
-                        </label>
-                    </span>
                     <div id="amenities-submenu" state="hide">
                         <div class="instruct">
                             Choose the ones that must be present
@@ -74,21 +58,37 @@
                         <div class="items">
                             {% for amenity in amenities %}
                             <label>
-                                <input type="checkbox" value="{{ amenity.id }}" checked>
+                                <input type="checkbox" name="amenities-specific-group[]" value="{{ amenity.id }}" checked>
                                 <span>{{ amenity.name }}</span>
                             </label>
                             {% endfor %}
                         </div>
                         <div class="confirm">
-                            <button id="btn-specific-amenities-ok">OK</button>
+                            <button id="btn-specific-amenities-ok" type="button">OK</button>
                         </div>
                     </div>
+                    <span>
+                        <label>
+                            <input type="radio" name="amenities-radio-group" value="" checked />
+                            <span>Anything</span>
+                        </label>
+                    </span>
+                    <span class="specific">
+                        <label>
+                            <input type="radio" name="amenities-radio-group" value="specific" />
+                            <span>Specific Ones</span>
+                            <button id="btn-specific-amenities-select" type="button">
+                                <span>Please select</span>
+                                <span class="arrows">&raquo;</span>
+                            </button>
+                        </label>
+                    </span>
                 </div>
             </div>
             <div class="search">
-                <button id="btn-menu-search">Search &raquo;</button>
+                <button id="btn-menu-search" type="submit">Search &raquo;</button>
             </div>
-        </div>
+        </form>
     </div>
 
     {% include "footer.html" %}
