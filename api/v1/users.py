@@ -16,7 +16,7 @@ def users_specific_get(user_id):
     # use the User class' static .specific method
     return User.specific(user_id)
 
-@api_routes.route('/api/v1/users', methods=["POST"])
+@api_routes.route('/users', methods=["POST"])
 def users_post():
     """ posts data for new user then returns the user data"""
     # -- Usage example --

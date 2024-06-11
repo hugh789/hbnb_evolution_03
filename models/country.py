@@ -224,7 +224,7 @@ class Country(Base):
         #     LEFT JOIN places pl ON ci.id = pl.city_id
         #     LEFT JOIN place_amenity pa ON pl.id = pa.place_id
         #     LEFT JOIN amenities am on pa.amenity_id = am.id
-        #     WHERE am.id IN ('036bc824-74ed-44dc-a183-1ab6c4878fc2', '2ec8cf22-e5ea-4a1f-aedd-89f15fcc60e9')
+        #     WHERE am.id IN ('036bc824-74ed-44dc-a183-1ab6c4878fc2', '2ec8cf22-e5ea-4a1f-aedd-89f15fcc60e9') AND country_code = 'SG'
         # ) x
         # GROUP BY country_code, city_id, id
 
@@ -262,6 +262,7 @@ class Country(Base):
 
         # Subquery complete!
         # Now, let's wrap it in the bigger GROUP BY query
+        # Note that the subquery is given an alias. This is required
         query_txt = "SELECT id AS place_id, country_code, city_id, city_name, host_id, \
             name, description, address, number_of_rooms, number_of_bathrooms, \
             max_guests, price_per_night, latitude, longitude, \
