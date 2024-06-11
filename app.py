@@ -44,7 +44,7 @@ def results():
     amenities = Amenity.all(True)
     country_city_places = Country.places(searched_destination, searched_amenities)
 
-    print(country_city_places)
+    # print(country_city_places)
 
     return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places)
 

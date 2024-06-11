@@ -21,7 +21,7 @@
         <h1>Please enable Javascript in your browser to view the site!</h1>
     </div>
 
-    <div id="menu">
+    <section id="menu">
         <form class="contents" action="/" method="post">
             <div class="destination">
                 <div class="title">Destination</div>
@@ -89,7 +89,16 @@
                 <button id="btn-menu-search" type="submit">Search &raquo;</button>
             </div>
         </form>
-    </div>
+    </section>
+    <section id="results">
+        {% if places %}
+            {% include "results.html" %}
+        {% else %}
+            <div class="none">
+                <h1>Please run the Search above to find available properties!</h1>
+            </div>
+        {% endif %}
+    </section>
 
     {% include "footer.html" %}
 </body>

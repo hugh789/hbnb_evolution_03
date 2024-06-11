@@ -217,6 +217,94 @@ header .status > .bubble.down {
   cursor: pointer;
 }
 
+#results {
+  width: 100%;
+  height: 100%;
+  font-size: 1.8rem;
+}
+#results ul, #results li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#results > .none {
+  width: 100%;
+  padding: 40px 0;
+  text-align: center;
+}
+#results > .listings > .country_group {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  margin: 10px;
+}
+#results > .listings > .country_group > .country_name {
+  font-size: 3.2rem;
+  margin: 10px 0;
+  padding: 5px 0;
+}
+#results > .listings > .country_group > .country_name .flag {
+  font-family: "Flags";
+}
+#results > .listings > .country_group > .cities > .city_group {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+#results > .listings > .country_group > .cities > .city_group > .city_name {
+  font-size: 2.6rem;
+  margin-bottom: 10px;
+  padding: 8px 0;
+}
+#results > .listings .place {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+#results > .listings .place > .name {
+  font-size: 2rem;
+  border-bottom: 1px solid #999;
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
+#results > .listings .place > .details {
+  display: flex;
+}
+#results > .listings .place > .details > div {
+  height: 52px;
+  margin-right: 10px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+}
+#results > .listings .place > .details > div:nth-child(2n) {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+#results > .listings .place > .details > .price {
+  display: block;
+}
+#results > .listings .place > .details > .price > .digits {
+  font-size: 4rem;
+}
+#results > .listings .place > .details > .price > .pax {
+  font-size: 1.2rem;
+  content: "per pax/night";
+}
+#results > .listings .place > .details > .amenities > span {
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  padding: 8px 8px 5px 8px;
+  margin-right: 5px;
+  line-height: 1.4rem;
+}
+#results > .listings .place > .details > .accommodations {
+  font-size: 2rem;
+}
+#results > .listings .place > .details > .accommodations > span {
+  margin-right: 10px;
+  padding: 0 10px;
+}
+#results > .listings .place > .details > .accommodations > span > i {
+  margin-right: 5px;
+}
+
 footer {
   width: 100%;
   height: 40px;
