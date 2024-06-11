@@ -216,7 +216,7 @@ class Country(Base):
         """ The big one! Everything we need is in here! """
 
         # --- Full SQL query Example ---
-        # SELECT id AS place_id, country_name, city_id, city_name, host_id, name, description, address, number_of_rooms, number_of_bathrooms, max_guests, price_per_night, latitude, longitude, GROUP_CONCAT(amenity_name)
+        # SELECT id AS place_id, country_name, city_name, host_id, name, description, address, number_of_rooms, number_of_bathrooms, max_guests, price_per_night, latitude, longitude, GROUP_CONCAT(amenity_name)
         # FROM (
         #     SELECT co.name AS country_name, ci.name AS city_name, pl.*, am.name AS amenity_name
         #     FROM countries co
@@ -226,7 +226,7 @@ class Country(Base):
         #     LEFT JOIN amenities am on pa.amenity_id = am.id
         #     WHERE am.id IN ('036bc824-74ed-44dc-a183-1ab6c4878fc2', '2ec8cf22-e5ea-4a1f-aedd-89f15fcc60e9') AND country_code = 'SG'
         # ) x
-        # GROUP BY country_name, city_id, id
+        # GROUP BY country_name, city_name, id
 
         # Note that the WHERE clause in the subquery may be different depending on what was selected in the form
         # Let's assemble the subquery first
@@ -263,39 +263,44 @@ class Country(Base):
         # Subquery complete!
         # Now, let's wrap it in the bigger GROUP BY query
         # Note that the subquery is given an alias. This is required
-        query_txt = "SELECT id AS place_id, country_name, city_id, city_name, host_id, \
+        query_txt = "SELECT id AS place_id, country_name, city_name, host_id, \
             name, description, address, number_of_rooms, number_of_bathrooms, \
             max_guests, price_per_night, latitude, longitude, \
             GROUP_CONCAT(amenity_name) as amenities \
-            FROM (" + query_txt + ") x GROUP BY country_name, city_id, id"
+            FROM (" + query_txt + ") x GROUP BY country_name, city_name, id"
 
         # This should give condense the results with the same country + city + place id
         # Amenities names will be squashed using GROUP_CONCAT into a comma separated string
 
         result = storage.raw_sql(query_txt)
         for row in result:
-            # let's start grouping by country code
-            if row.country_name not in output:
-                output[row.country_name] = {}
+            if row.place_id:
+                # let's start grouping by country code
+                if row.country_name not in output:
+                    output[row.country_name] = {}
 
-            if row.city_name not in output[row.country_name]:
-                output[row.country_name][row.city_name] = []
+                if row.city_name not in output[row.country_name]:
+                    output[row.country_name][row.city_name] = []
 
-            if row.city_id is not None:
-                output[row.country_name][row.city_name].append({
-                    "city_name": row.city_name,
-                    "place_id": row.place_id,
-                    "name": row.name,
-                    "description": row.description,
-                    "address": row.address,
-                    "number_of_rooms": row.number_of_rooms,
-                    "number_of_bathrooms": row.number_of_bathrooms,
-                    "max_guests": row.max_guests,
-                    "price_per_night": row.price_per_night,
-                    "latitude": row.latitude,
-                    "longitude": row.longitude,
-                    "host_id": row.host_id,
-                    "amenities": row.amenities.split(",")
-                })
+                if row.city_name is not None:
+                    amenities_array = []
+                    if row.amenities:
+                        amenities_array = row.amenities.split(",")
+
+                    output[row.country_name][row.city_name].append({
+                        "city_name": row.city_name,
+                        "place_id": row.place_id,
+                        "name": row.name,
+                        "description": row.description,
+                        "address": row.address,
+                        "number_of_rooms": row.number_of_rooms,
+                        "number_of_bathrooms": row.number_of_bathrooms,
+                        "max_guests": row.max_guests,
+                        "price_per_night": row.price_per_night,
+                        "latitude": row.latitude,
+                        "longitude": row.longitude,
+                        "host_id": row.host_id,
+                        "amenities": amenities_array
+                    })
 
         return output

@@ -257,6 +257,7 @@ header .status > .bubble.down {
 #results > .listings .place {
   background-color: rgba(0, 0, 0, 0.1);
   padding: 10px;
+  margin-bottom: 5px;
 }
 #results > .listings .place > .name {
   font-size: 2rem;
@@ -286,6 +287,9 @@ header .status > .bubble.down {
 #results > .listings .place > .details > .price > .pax {
   font-size: 1.2rem;
   content: "per pax/night";
+}
+#results > .listings .place > .details > .description {
+  flex: 1;
 }
 #results > .listings .place > .details > .amenities > span {
   background-color: rgba(255, 255, 255, 0.4);
