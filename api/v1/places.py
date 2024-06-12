@@ -1,6 +1,6 @@
 """ objects that handles all default RestFul API actions for Place """
 from api.v1 import api_routes
-from models.place import Place
+from models.place_amenity import Place
 
 
 @api_routes.route('/places', methods=["POST"])

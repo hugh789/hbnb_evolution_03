@@ -16,10 +16,9 @@ class DBStorage():
         "User": "user",
         "Country": "country",
         "City": "city",
-        "Amenity": "amenity",
-        "Place": "place",
-        "Review": "review",
-        "PlaceAmenity": "place_amenity"
+        "Amenity": "place_amenity",
+        "Place": "place_amenity",
+        "Review": "review"
     }
 
     def __init__(self, Base):
@@ -170,7 +169,7 @@ class DBStorage():
     def raw_sql(self, query_txt):
         """ The absolutely worst possible way to access the database using an ORM """
         # Note that I'm doing things the wrong way by using raw SQL.
-        # Ideally I should be using parametric queries but I couldn't get them to work.
+        # Ideally I should be using parametric queries but I couldn't get them to work lol.
         sql = text(query_txt)
         result = self.__session.execute(sql)
 

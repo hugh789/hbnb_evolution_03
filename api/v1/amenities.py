@@ -1,6 +1,6 @@
 """ objects that handles all default RestFul API actions for Amenity """
 from api.v1 import api_routes
-from models.amenity import Amenity
+from models.place_amenity import Amenity
 
 
 @api_routes.route('/amenities', methods=["POST"])

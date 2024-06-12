@@ -3,8 +3,7 @@
 from flask import Flask, render_template, request, abort, jsonify
 from api.v1 import api_routes
 from models.country import Country
-from models.amenity import Amenity
-from models.place import Place
+from models.place_amenity import Place, Amenity
 
 app = Flask(__name__)
 app.register_blueprint(api_routes)
