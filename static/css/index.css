@@ -219,8 +219,9 @@ header .status > .bubble.down {
 
 #results {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   font-size: 1.8rem;
+  padding-bottom: 50px;
 }
 #results ul, #results li {
   margin: 0;
@@ -266,30 +267,44 @@ header .status > .bubble.down {
   padding: 10px 0;
 }
 #results > .listings .place > .details {
+  font-size: 1.4rem;
+  position: relative;
   display: flex;
 }
 #results > .listings .place > .details > div {
   height: 52px;
   margin-right: 10px;
-  padding: 0 10px;
-  display: flex;
-  align-items: center;
+  padding: 0 5px;
 }
 #results > .listings .place > .details > div:nth-child(2n) {
   background-color: rgba(255, 255, 255, 0.2);
 }
 #results > .listings .place > .details > .price {
-  display: block;
+  width: 120px;
 }
 #results > .listings .place > .details > .price > .digits {
   font-size: 4rem;
 }
 #results > .listings .place > .details > .price > .pax {
   font-size: 1.2rem;
-  content: "per pax/night";
 }
 #results > .listings .place > .details > .description {
+  width: 280px;
+  font-size: 1.6rem;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+}
+#results > .listings .place > .details > .address {
+  width: 300px;
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+}
+#results > .listings .place > .details > .amenities {
   flex: 1;
+  display: flex;
+  align-items: center;
 }
 #results > .listings .place > .details > .amenities > span {
   background-color: rgba(255, 255, 255, 0.4);
@@ -300,10 +315,13 @@ header .status > .bubble.down {
 }
 #results > .listings .place > .details > .accommodations {
   font-size: 2rem;
+  position: absolute;
+  top: -45px;
+  right: 0;
+  margin-right: 0;
 }
 #results > .listings .place > .details > .accommodations > span {
-  margin-right: 10px;
-  padding: 0 10px;
+  margin-left: 10px;
 }
 #results > .listings .place > .details > .accommodations > span > i {
   margin-right: 5px;
