@@ -24,7 +24,7 @@ class Country(Base):
     updated_at = Column(DateTime, nullable=False, default=datetime.now())
     __name = Column("name", String(128), nullable=False)
     __code = Column("code", String(2), nullable=False)
-    cities_r = relationship("City", back_populates="country_r", cascade="delete, delete-orphan")
+    cities = relationship("City", back_populates="country", cascade="delete, delete-orphan")
 
     # Constructor
     def __init__(self, *args, **kwargs):
@@ -186,9 +186,10 @@ class Country(Base):
         return jsonify(output)
 
     @staticmethod
-    def cities(country_code):
+    def cities_data(country_code):
         """ Class method that returns a specific country's cities"""
-        # This method can be replaced partially by the cities_r relationship defined above
+        # Unused at the moment.
+        # This method can be replaced partially by the cities relationship defined above
 
         output = []
 
@@ -216,15 +217,26 @@ class Country(Base):
         """ The big one! Everything we need is in here! """
 
         # --- Full SQL query Example ---
+        # Run the individual subqueries to understand the results given by them.
+
         # SELECT id AS place_id, country_name, city_name, host_id, name, description, address, number_of_rooms, number_of_bathrooms, max_guests, price_per_night, latitude, longitude, GROUP_CONCAT(amenity_name)
         # FROM (
-        #     SELECT co.name AS country_name, ci.name AS city_name, pl.*, am.name AS amenity_name
-        #     FROM countries co
-        #     LEFT JOIN cities ci ON co.id = ci.country_id
-        #     LEFT JOIN places pl ON ci.id = pl.city_id
-        #     LEFT JOIN place_amenity pa ON pl.id = pa.place_id
-        #     LEFT JOIN amenities am on pa.amenity_id = am.id
-        #     WHERE am.id IN ('036bc824-74ed-44dc-a183-1ab6c4878fc2', '2ec8cf22-e5ea-4a1f-aedd-89f15fcc60e9') AND country_code = 'SG'
+        #         SELECT co.name AS country_name, ci.name AS city_name, pl.*, am.name AS amenity_name
+        #         FROM countries co
+        #         LEFT JOIN cities ci ON co.id = ci.country_id
+        #         LEFT JOIN places pl ON ci.id = pl.city_id
+        #         LEFT JOIN place_amenity pa ON pl.id = pa.place_id
+        #         LEFT JOIN amenities am on pa.amenity_id = am.id
+        #         WHERE pl.id IN (
+        #                 SELECT DISTINCT(place_id) FROM
+        #                 (
+        #                         SELECT place_id, count(amenity_id) AS amenity_count
+        #                         FROM place_amenity
+        #                         WHERE amenity_id IN ('036bc824-74ed-44dc-a183-1ab6c4878fc2', '2ec8cf22-e5ea-4a1f-aedd-89f15fcc60e9')
+        #                         GROUP BY place_id
+        #                 ) y
+        #                 WHERE amenity_count = 2
+        #         ) AND co.code = 'MY'
         # ) x
         # GROUP BY country_name, city_name, id
 
@@ -245,15 +257,23 @@ class Country(Base):
         if amenities != "" and len(amenities) > 0:
             # Assemble the comma-separated list
             # 1. wrap each item in the list with inverted commas
-            i = 0
+            amenity_count = 0
             for a in amenities:
-                amenities[i] = "'" + a + "'"
-                i = i + 1
+                amenities[amenity_count] = "'" + a + "'"
+                amenity_count = amenity_count + 1
 
             # 2. then turn it ionto a comma separated string
             amenities_comma_list = ",".join(amenities)
 
-            query_txt = query_txt + "WHERE am.id IN (" + amenities_comma_list + ")"
+            query_txt = query_txt + "WHERE pl.id IN ( \
+                    SELECT DISTINCT(place_id) FROM ( \
+                        SELECT place_id, count(amenity_id) AS amenity_count \
+                        FROM place_amenity \
+                        WHERE amenity_id IN (" + amenities_comma_list + ") \
+                        GROUP BY place_id \
+                    ) y \
+                    WHERE amenity_count = " + str(amenity_count) + " \
+                )"
             where_and = " AND "
 
         # If a specific country was selected

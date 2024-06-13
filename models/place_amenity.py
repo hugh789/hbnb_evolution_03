@@ -30,17 +30,17 @@ class Place(Base):
     id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.now())
     updated_at = Column(DateTime, nullable=False, default=datetime.now())
-    __city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
-    __host_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-    __name = Column(String(128), nullable=False)
-    __description = Column(String(1024), nullable=True)
-    __address = Column(String(1024), nullable=True)
-    __number_of_rooms = Column(Integer, nullable=False, default=0)
-    __number_of_bathrooms = Column(Integer, nullable=False, default=0)
-    __max_guests = Column(Integer, nullable=False, default=0)
-    __price_per_night = Column(Integer, nullable=False, default=0)
-    __latitude = Column(Float, nullable=True)
-    __longitude = Column(Float, nullable=True)
+    __city_id = Column("city_id", String(60), ForeignKey('cities.id'), nullable=False)
+    __host_id = Column("host_id", String(60), ForeignKey('users.id'), nullable=False)
+    __name = Column("name", String(128), nullable=False)
+    __description = Column("description", String(1024), nullable=True)
+    __address = Column("address", String(1024), nullable=True)
+    __number_of_rooms = Column("number_of_rooms", Integer, nullable=False, default=0)
+    __number_of_bathrooms = Column("number_of_bathrooms", Integer, nullable=False, default=0)
+    __max_guests = Column("max_guests", Integer, nullable=False, default=0)
+    __price_per_night = Column("price_per_night", Integer, nullable=False, default=0)
+    __latitude = Column("latitude", Float, nullable=True)
+    __longitude = Column("longitude", Float, nullable=True)
     amenities = relationship("Amenity", secondary=place_amenity, back_populates = 'places')
     reviews_r = relationship("Review", back_populates="place_r")
     owner_r = relationship("User", back_populates="properties_r")
@@ -200,16 +200,11 @@ class Place(Base):
             print("Error: ", exc)
             return "Unable to load places!"
 
-        # FIXME:
-
         for row in result:
+            # Note that we are using the amenities relationship to get the data we need
             place_amenity_ids = []
-            # populate the place_amenity_ids array.
-            # We can probably use relationships for this but I don't know how lol
-            # NOTE: This is VERY inefficient. Sure there is a better way to do this using SQL.
-            amenities_data = storage.get('PlaceToAmenity', 'place_id', row.id)
-            for r in amenities_data:
-                place_amenity_ids.append(r.amenity_id)
+            for item in row.amenities:
+                place_amenity_ids.append(item.id)
 
             output.append({
                 "id": row.id,
@@ -240,29 +235,30 @@ class Place(Base):
             print("Error: ", exc)
             return "Unable to load Place data!"
 
-        # FIXME:
+        # there's only one item in result
+        row = result[0]
 
+        # Note that we are using the amenities relationship to get the data we need
         place_amenity_ids = []
-        amenities_data = storage.get('PlaceToAmenity', 'place_id', result.id)
-        for r in amenities_data:
-            place_amenity_ids.append(r.amenity_id)
+        for item in row.amenities:
+            place_amenity_ids.append(item.id)
 
         output = {
-                "id": result.id,
-                "name": result.name,
-                "description": result.description,
-                "address": result.address,
-                "city_id": result.city_id,
-                "latitude": result.latitude,
-                "longitude": result.longitude,
-                "host_id": result.host_id,
-                "number_of_rooms": result.number_of_rooms,
-                "number_of_bathrooms": result.number_of_bathrooms,
-                "price_per_night": result.price_per_night,
-                "max_guests": result.max_guests,
+                "id": row.id,
+                "name": row.name,
+                "description": row.description,
+                "address": row.address,
+                "city_id": row.city_id,
+                "latitude": row.latitude,
+                "longitude": row.longitude,
+                "host_id": row.host_id,
+                "number_of_rooms": row.number_of_rooms,
+                "number_of_bathrooms": row.number_of_bathrooms,
+                "price_per_night": row.price_per_night,
+                "max_guests": row.max_guests,
                 "amenity_ids": place_amenity_ids,
-                "created_at": result.created_at.strftime(Place.datetime_format),
-                "updated_at": result.updated_at.strftime(Place.datetime_format)
+                "created_at": row.created_at.strftime(Place.datetime_format),
+                "updated_at": row.updated_at.strftime(Place.datetime_format)
         }
 
         return jsonify(output)
@@ -383,6 +379,7 @@ class Place(Base):
         }
 
         return jsonify(output)
+
 
 class Amenity(Base):
     """Representation of amenity """
