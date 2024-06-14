@@ -1,7 +1,7 @@
 // I'm doing things the old-fashioned way.
 // Let's start by creating a JS 'object' that will hold all the 'attributes' and 'methods' we need.
 // Note that this is not Object Oriented Programming. It's just the way people used to code JS 10+ years ago.
-// The JS 'object' is nothing more than an associative array
+// The JS 'object' is nothing more than an associative array (the proper name for a dictionary in Python)
 
 hbnb = {
     amenitiesInit: function() {

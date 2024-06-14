@@ -4,6 +4,7 @@
 from datetime import datetime
 import uuid
 import re
+from copy import deepcopy
 from flask import jsonify, request, abort
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import relationship
@@ -258,12 +259,13 @@ class Country(Base):
             # Assemble the comma-separated list
             # 1. wrap each item in the list with inverted commas
             amenity_count = 0
+            amenities_list = []
             for a in amenities:
-                amenities[amenity_count] = "'" + a + "'"
+                amenities_list.append("'" + a + "'")
                 amenity_count = amenity_count + 1
 
             # 2. then turn it ionto a comma separated string
-            amenities_comma_list = ",".join(amenities)
+            amenities_comma_list = ",".join(amenities_list)
 
             query_txt = query_txt + "WHERE pl.id IN ( \
                     SELECT DISTINCT(place_id) FROM ( \

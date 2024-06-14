@@ -42,10 +42,16 @@ def results():
     countries = Country.all(True)
     amenities = Amenity.all(True)
     country_city_places = Country.places(searched_destination, searched_amenities)
-
     # print(country_city_places)
 
-    return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places)
+    # ??? What is this for? Why are we passing the stuff we selected back to the template???
+    selected = {
+        "destination": searched_destination,
+        "amenities": searched_amenities
+    }
+    # print(selected)
+
+    return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places, selected=selected)
 
 @app.route('/status')
 def status():

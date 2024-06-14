@@ -26,16 +26,32 @@
             <div class="destination">
                 <div class="title">Destination</div>
                 <div class="choice">
+                    <!-- Don't forget that this html page is also used to display the search results -->
+                    <!-- The chunk of code below will re-select the 'All' radio button if it was chosen previously -->
+                    {% set all_dest_checked = "checked" %}
+                    {% if selected and "destination" in selected %}
+                        {% if selected["destination"] != "" %}
+                            {% set all_dest_checked = "" %}
+                        {% endif %}
+                    {% endif %}
                     <span>
                         <label>
-                            <input type="radio" name="destination-radio-group" value="" checked />
+                            <input type="radio" name="destination-radio-group" value="" {{ all_dest_checked }} />
                             <span>All</span>
                         </label>
                     </span>
                     {% for country in countries %}
+                        <!-- Don't forget that this html page is also used to display the search results -->
+                        <!-- The chunk of code below will re-select the radio button for the country chosen previously during form submission -->
+                        {% set specific_dest_checked = "" %}
+                        {% if selected and "destination" in selected %}
+                            {% if selected["destination"] == country.code %}
+                                {% set specific_dest_checked = "checked" %}
+                            {% endif %}
+                        {% endif %}
                     <span>
                         <label>
-                            <input type="radio" name="destination-radio-group" value="{{ country.code }}" />
+                            <input type="radio" name="destination-radio-group" value="{{ country.code }}" {{ specific_dest_checked }} />
                             <span>{{ country.name }}</span>
                         </label>
                     </span>
@@ -51,14 +67,49 @@
                     </span>
                 </div>
                 <div class="choice">
+                    <!-- Same as with the destination radio inputs, we re-select what was previously selected during form submission -->
+                    {% set all_amen_checked = "checked" %}
+                    {% set specific_amen_checked = "" %}
+                    {% if selected and "amenities" in selected %}
+                        {% if selected["amenities"] != "" and selected["amenities"]|length > 0 %}
+                            {% set all_amen_checked = "" %}
+                            {% set specific_amen_checked = "checked" %}
+                        {% endif %}
+                    {% endif %}
+                    <span>
+                        <label>
+                            <input type="radio" name="amenities-radio-group" value="" {{ all_amen_checked }} />
+                            <span>Anything</span>
+                        </label>
+                    </span>
+                    <span class="specific">
+                        <label>
+                            <input type="radio" name="amenities-radio-group" value="specific" {{ specific_amen_checked }} />
+                            <span>Specific Ones</span>
+                            <button id="btn-specific-amenities-select" type="button">
+                                <span>Please select</span>
+                                <span class="arrows">&raquo;</span>
+                            </button>
+                        </label>
+                    </span>
                     <div id="amenities-submenu" state="hide">
                         <div class="instruct">
                             Choose the ones that you want
                         </div>
                         <div class="items">
+                            {% set amenity_item_selected = "checked" %}
                             {% for amenity in amenities %}
+                                <!-- Re-select the checkboxes that were previously chosen -->
+                                {% if selected and "amenities" in selected %}
+                                    {% if selected["amenities"] != "" and selected["amenities"]|length > 0 %}
+                                        {% set amenity_item_selected = "" %}
+                                        {% if amenity.id in selected["amenities"] %}
+                                            {% set amenity_item_selected = "checked" %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
                             <label>
-                                <input type="checkbox" name="amenities-specific-group[]" value="{{ amenity.id }}" checked>
+                                <input type="checkbox" name="amenities-specific-group[]" value="{{ amenity.id }}" {{ amenity_item_selected }}>
                                 <span>{{ amenity.name }}</span>
                             </label>
                             {% endfor %}
@@ -67,22 +118,6 @@
                             <button id="btn-specific-amenities-ok" type="button">OK</button>
                         </div>
                     </div>
-                    <span>
-                        <label>
-                            <input type="radio" name="amenities-radio-group" value="" checked />
-                            <span>Anything</span>
-                        </label>
-                    </span>
-                    <span class="specific">
-                        <label>
-                            <input type="radio" name="amenities-radio-group" value="specific" />
-                            <span>Specific Ones</span>
-                            <button id="btn-specific-amenities-select" type="button">
-                                <span>Please select</span>
-                                <span class="arrows">&raquo;</span>
-                            </button>
-                        </label>
-                    </span>
                 </div>
             </div>
             <div class="search">
