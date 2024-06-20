@@ -7,7 +7,7 @@ hbnb = {
     amenitiesInit: function() {
         // set up the onclick events for the Amenities radios + button
         let amenRadios = document.querySelectorAll("#menu >.contents >.amenities >.choice input[type='radio']");
-        for (elem of amenRadios) {
+        for (let elem of amenRadios) {
             elem.addEventListener("change", function(e) {
             let specificSelectedText = document.querySelector("#menu >.contents >.amenities >.title .selected")
             
