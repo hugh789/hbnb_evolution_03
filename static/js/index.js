@@ -38,7 +38,7 @@ hbnb = {
 
         // For the checkboxes in the submenu, let's add events that will update the counter
         let selectedAmenitiesCheckboxes = document.querySelectorAll("#amenities-submenu >.items input[type='checkbox']");
-        for (c of selectedAmenitiesCheckboxes) {
+        for (let c of selectedAmenitiesCheckboxes) {
             c.addEventListener('click', function() {
                 hbnb.updateSpecificAmenitiesCount();
             })
@@ -67,7 +67,7 @@ hbnb = {
         let selectedAmenitiesCheckboxes = document.querySelectorAll("#amenities-submenu >.items input[type='checkbox']");
 
         let checkedCount = 0
-        for (c of selectedAmenitiesCheckboxes) {
+        for (let c of selectedAmenitiesCheckboxes) {
             if (c.checked) {
                 checkedCount++
             }
