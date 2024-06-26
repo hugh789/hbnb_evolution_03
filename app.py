@@ -2,8 +2,11 @@
 
 from flask import Flask, render_template, request, abort, jsonify
 from api.v1 import api_routes
+from models.city import City
 from models.country import Country
 from models.place_amenity import Place, Amenity
+from models.review import Review
+from models.user import User
 
 app = Flask(__name__)
 app.register_blueprint(api_routes)
@@ -56,7 +59,22 @@ def results():
 @app.route('/admin')
 def admin():
     """ Admin page """
-    return render_template('admin.html')
+
+    # Load the data we need before passing it to the template
+    cities = City.all(True)
+    countries = Country.all(True)
+    places = Place.all(True)
+    amenities = Amenity.all(True)
+    reviews = Review.all(True)
+    users = User.all(True)
+
+    return render_template('admin.html',
+                           cities=cities,
+                           countries=countries,
+                           places=places,
+                           amenities=amenities,
+                           reviews=reviews,
+                           users=users)
 
 @app.route('/status')
 def status():

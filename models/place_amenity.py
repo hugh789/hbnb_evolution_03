@@ -190,7 +190,7 @@ class Place(Base):
 
     # --- Static methods ---
     @staticmethod
-    def all():
+    def all(return_raw_result = False):
         """ Class method that returns all places data"""
         output = []
 
@@ -199,6 +199,9 @@ class Place(Base):
         except IndexError as exc:
             print("Error: ", exc)
             return "Unable to load places!"
+
+        if return_raw_result:
+            return result
 
         for row in result:
             # Note that we are using the amenities relationship to get the data we need
