@@ -53,6 +53,11 @@ def results():
 
     return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places, selected=selected)
 
+@app.route('/admin')
+def admin():
+    """ Admin page """
+    return render_template('admin.html')
+
 @app.route('/status')
 def status():
     """ Return server status """
