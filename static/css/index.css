@@ -345,29 +345,23 @@ footer {
   background-color: #F5F5F5;
   overflow: hidden;
 }
-.admin-data.amenities span:nth-child(1) {
-  width: 280px;
-}
 .admin-data.amenities span:nth-child(2) {
   width: 100px;
-}
-.admin-data.cities span:nth-child(1) {
-  width: 280px;
 }
 .admin-data.cities span:nth-child(2) {
   width: 120px;
 }
-.admin-data.countries span:nth-child(1) {
-  width: 280px;
-}
-.admin-data.countries span:nth-child(2) {
+.admin-data.countries .header span:nth-child(2), .admin-data.countries .row span:nth-child(2) {
   width: 120px;
 }
-.admin-data.countries span:nth-child(3) {
+.admin-data.countries .header span:nth-child(3), .admin-data.countries .row span:nth-child(3) {
   width: 60px;
 }
-.admin-data.places span:nth-child(1) {
-  width: 280px;
+.admin-data.countries form span:nth-child(1) {
+  flex: 2;
+}
+.admin-data.countries form span:nth-child(2) {
+  flex: 1;
 }
 .admin-data.places span:nth-child(2) {
   width: 150px;
@@ -390,17 +384,11 @@ footer {
 .admin-data.places span:nth-child(9), .admin-data.places span:nth-child(10) {
   width: 70px;
 }
-.admin-data.reviews span:nth-child(1) {
-  width: 280px;
-}
 .admin-data.reviews span:nth-child(2) {
-  width: 120px;
+  width: 100px;
 }
 .admin-data.reviews span:nth-child(3) {
   width: 120px;
-}
-.admin-data.users span:nth-child(1) {
-  width: 280px;
 }
 .admin-data.users span:nth-child(2) {
   width: 100px;
@@ -443,6 +431,12 @@ footer {
   padding: 5px;
   font-size: 1.4rem;
   align-content: center;
+}
+.admin-data > .header > span:nth-child(1), .admin-data > .rows > .row > span:nth-child(1) {
+  width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow-x: clip;
 }
 .admin-data > .header > span:not(:nth-child(1)), .admin-data > .rows > .row > span:not(:nth-child(1)) {
   border-left: 1px solid #CCC;

@@ -482,7 +482,7 @@ class Amenity(Base):
             abort(400, "Missing name")
 
         exists = storage.get('Amenity', '_Amenity__name', data["name"])
-        if exists is not None:
+        if len(exists) > 0:
             abort(400, "Specified amenity already exists")
 
         try:

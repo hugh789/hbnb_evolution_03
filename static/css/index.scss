@@ -416,39 +416,38 @@ footer {
     overflow: hidden;
 
     &.amenities span{
-        &:nth-child(1) {
-            width: 280px;
-        }
         &:nth-child(2) {
             width: 100px;
         }
     }
 
     &.cities span{
-        &:nth-child(1) {
-            width: 280px;
-        }
         &:nth-child(2) {
             width: 120px;
         }
     }
 
-    &.countries span{
-        &:nth-child(1) {
-            width: 280px;
+    &.countries {
+        .header span, .row span{
+            &:nth-child(2) {
+                width: 120px;
+            }
+            &:nth-child(3) {
+                width: 60px;
+            }
         }
-        &:nth-child(2) {
-            width: 120px;
-        }
-        &:nth-child(3) {
-            width: 60px;
+
+        form span {
+            &:nth-child(1) {
+                flex: 2;
+            }
+            &:nth-child(2) {
+                flex: 1;
+            }
         }
     }
 
     &.places span{
-        &:nth-child(1) {
-            width: 280px;
-        }
         &:nth-child(2) {
             width: 150px;
         }
@@ -473,11 +472,8 @@ footer {
     }
 
     &.reviews span{
-        &:nth-child(1) {
-            width: 280px;
-        }
         &:nth-child(2) {
-            width: 120px;
+            width: 100px;
         }
         &:nth-child(3) {
             width: 120px;
@@ -485,9 +481,6 @@ footer {
     }
 
     &.users span{
-        &:nth-child(1) {
-            width: 280px;
-        }
         &:nth-child(2) {
             width: 100px;
         }
@@ -537,6 +530,13 @@ footer {
         padding: 5px;
         font-size: 1.4rem;
         align-content: center;
+
+        &:nth-child(1) {
+            width: 100px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow-x: clip;
+        }
 
         &:not(:nth-child(1)) {
             border-left: 1px solid #CCC;

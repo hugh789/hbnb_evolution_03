@@ -76,6 +76,47 @@ def admin():
                            reviews=reviews,
                            users=users)
 
+@app.route('/admin', methods=["POST"])
+def admin_post():
+    """ Handle the form data posted in the admin page """
+
+    # Evaluate what was submitted from the frontend and return the appropriate results
+    if request.form is None:
+        abort(400, "No form data submitted")
+
+    formdata = request.form
+    submit_data = formdata.to_dict()
+
+    model = ""
+    data = {}
+    for key in submit_data:
+        keys = key.split('-')
+        model = keys[0]
+        data[keys[1]] = submit_data[key]
+
+    result = 'OK' #default
+    if model == 'country':
+        result = Country.create_from_form_submit(data)
+
+    if result != 'OK':
+        return result
+
+    # Load the data we need before passing it to the template
+    cities = City.all(True)
+    countries = Country.all(True)
+    places = Place.all(True)
+    amenities = Amenity.all(True)
+    reviews = Review.all(True)
+    users = User.all(True)
+
+    return render_template('admin.html',
+                           cities=cities,
+                           countries=countries,
+                           places=places,
+                           amenities=amenities,
+                           reviews=reviews,
+                           users=users)
+
 @app.route('/status')
 def status():
     """ Return server status """
