@@ -415,6 +415,34 @@ footer {
     background-color: #F5F5F5;
     overflow: hidden;
 
+    &.places-amenities {
+        .header span, .row span{
+            &:nth-child(1) {
+                width: 200px;
+            }
+            
+            &:nth-child(2) {
+                width: 120px;
+            }
+        }
+
+        form {
+            span {
+                &:nth-child(1) {
+                    flex: 1;
+                }
+                &:nth-child(2) {
+                    flex: 1;
+                }
+            }
+
+            select {
+                width: 100%;
+                padding: 5px;
+            }
+        }
+    }
+
     &.amenities span{
         &:nth-child(1) {
             width: 100px;
@@ -596,13 +624,14 @@ footer {
             }
 
             input[type=text] {
+                padding: 5px;
                 width: calc(100% - 10px);
             }
         }
 
         > .submit {
             text-align: right;
-            padding-right: 20px;
+            padding-right: 10px;
 
             > button {
                 padding: 5px 20px;

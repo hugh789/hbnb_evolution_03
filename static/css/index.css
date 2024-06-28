@@ -345,6 +345,22 @@ footer {
   background-color: #F5F5F5;
   overflow: hidden;
 }
+.admin-data.places-amenities .header span:nth-child(1), .admin-data.places-amenities .row span:nth-child(1) {
+  width: 200px;
+}
+.admin-data.places-amenities .header span:nth-child(2), .admin-data.places-amenities .row span:nth-child(2) {
+  width: 120px;
+}
+.admin-data.places-amenities form span:nth-child(1) {
+  flex: 1;
+}
+.admin-data.places-amenities form span:nth-child(2) {
+  flex: 1;
+}
+.admin-data.places-amenities form select {
+  width: 100%;
+  padding: 5px;
+}
 .admin-data.amenities span:nth-child(1) {
   width: 100px;
   text-overflow: ellipsis;
@@ -487,11 +503,12 @@ footer {
   padding: 5px 10px 5px 0;
 }
 .admin-data > form > .fields input[type=text] {
+  padding: 5px;
   width: calc(100% - 10px);
 }
 .admin-data > form > .submit {
   text-align: right;
-  padding-right: 20px;
+  padding-right: 10px;
 }
 .admin-data > form > .submit > button {
   padding: 5px 20px;

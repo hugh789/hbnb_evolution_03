@@ -18,6 +18,44 @@
         </div>
     </header>
 
+    <div class="admin-data places-amenities">
+        <div class="title">Places-to-Amenities</div>
+        <div class="header">
+            <span>Place</span>
+            <span>Amenity</span>
+        </div>
+        <div class="rows">
+        {% for pa in place_amenity %}
+            <div class="row">
+                <span>{{ pa.place_name }}</span>
+                <span>{{ pa.amenity_name }}</span>
+            </div>
+        {% endfor %}
+        </div>
+        <form>
+            <div class="title">Add new pairing</div>
+            <div class="fields">
+                <span>
+                    <select name="pa-place">
+                        {% for place in places %}
+                        <option value="{{ place.id }}">{{ place.name }}</option>
+                        {% endfor %}
+                    </select>
+                </span>
+                <span>
+                    <select name="pa-amenity">
+                        {% for amenity in amenities %}
+                        <option value="{{ amenity.id }}">{{ amenity.name }}</option>
+                        {% endfor %}
+                    </select>
+                </span>
+            </div>
+            <div class="submit">
+                <button type="submit" disabled>Add</button>
+            </div>
+        </form>
+    </div>
+
     <div class="admin-data amenities">
         <div class="title">Amenities</div>
         <div class="header">

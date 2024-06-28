@@ -67,8 +67,10 @@ def admin():
     amenities = Amenity.all(True)
     reviews = Review.all(True)
     users = User.all(True)
+    place_amenity = Place.amenities_data()
 
     return render_template('admin.html',
+                           place_amenity=place_amenity,
                            cities=cities,
                            countries=countries,
                            places=places,

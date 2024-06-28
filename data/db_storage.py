@@ -174,4 +174,10 @@ class DBStorage():
         result = self.__session.execute(sql)
 
         return result
+
+    def session_query(self, query_obj):
+        """ Use the existing session to execute the query obj passed in """
+        # NOTE: This is also quite dangerous
+
+        return self.__session.execute(query_obj)
         
