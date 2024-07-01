@@ -32,8 +32,8 @@
             </div>
         {% endfor %}
         </div>
-        <form>
-            <div class="title">Add new pairing</div>
+        <form action="/admin" method="post">
+            <div class="title">Add new Place-to-Amenity pairing</div>
             <div class="fields">
                 <span>
                     <select name="pa-place">
@@ -51,7 +51,7 @@
                 </span>
             </div>
             <div class="submit">
-                <button type="submit" disabled>Add</button>
+                <button type="submit">Add</button>
             </div>
         </form>
     </div>

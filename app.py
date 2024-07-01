@@ -99,6 +99,8 @@ def admin_post():
     result = 'OK' #default
     if model == 'country':
         result = Country.create_from_form_submit(data)
+    elif model == 'pa':
+        result = Amenity.create_place_relationship(data)
 
     if result != 'OK':
         return result
@@ -110,8 +112,10 @@ def admin_post():
     amenities = Amenity.all(True)
     reviews = Review.all(True)
     users = User.all(True)
+    place_amenity = Place.amenities_data()
 
     return render_template('admin.html',
+                           place_amenity=place_amenity,
                            cities=cities,
                            countries=countries,
                            places=places,
