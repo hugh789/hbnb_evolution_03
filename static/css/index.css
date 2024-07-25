@@ -177,6 +177,13 @@ header .status > .bubble.down {
   align-content: center;
   display: inline-block;
 }
+
+#menu .contents > .destination .title > .selected {
+  font-size: 1.2rem;
+  align-content: center;
+  display: inline-block;
+}
+
 #menu .contents > .amenities .title > .selected[state=hide] {
   display: none;
 }
@@ -296,6 +303,63 @@ header .status > .bubble.down {
   text-align: center;
 }
 #amenities-submenu > .confirm button {
+  width: 120px;
+  cursor: pointer;
+}
+
+#destination-submenu {
+  width: 280px;
+  background-color: #E5E5E5;
+  padding: 10px;
+  border-radius: 3px;
+  top: 30px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid #999;
+  position: absolute;
+  transition: all 0.3s;
+}
+#destination-submenu[state=hide] {
+  opacity: 0;
+  z-index: -2;
+  left: -50px;
+}
+#destination-submenu[state=show] {
+  opacity: 1;
+  z-index: 2;
+  left: 0;
+}
+#destination-submenu[state=show] ~ span #btn-specific-destination-select .arrows {
+  transform: rotate(90deg);
+}
+#destination-submenu > .instruct {
+  font-size: 1.6rem;
+  border-bottom: 1px solid #999;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+#destination-submenu > .items {
+  display: flex;
+  flex-wrap: wrap;
+}
+#destination-submenu > .items > label {
+  padding: 5px 8px 2px 8px;
+  margin: 5px;
+  user-select: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+#destination-submenu > .items > label:hover {
+  background-color: #D5D5D5;
+}
+#destination-submenu > .items > label > input {
+  margin: 0;
+}
+#destination-submenu > .confirm {
+  padding-top: 10px;
+  border-top: 1px solid #999;
+  text-align: center;
+}
+#destination-submenu > .confirm button {
   width: 120px;
   cursor: pointer;
 }
