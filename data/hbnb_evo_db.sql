@@ -142,6 +142,7 @@ CREATE TABLE `places` (
   `price_per_night` int NOT NULL,
   `latitude` float DEFAULT NULL,
   `longitude` float DEFAULT NULL,
+  `img_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `city_id` (`city_id`),
   KEY `host_id` (`host_id`),

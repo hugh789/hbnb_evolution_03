@@ -6,6 +6,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700|Google+Sans+Text:400&amp;lang=en">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans+Text:400&amp;text=%E2%86%90%E2%86%92%E2%86%91%E2%86%93&amp;lang=en">
     <link type="text/css" rel="stylesheet" href="../static/fontawesome/css/all.css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet" href="../static/css/index.css">
     <link rel="icon" href="../static/img/favicon.ico" />
@@ -24,7 +26,7 @@
     <section id="menu">
         <form class="contents" action="/" method="post">
             <div class="destination">
-                <div class="title">Destination</div>
+                <div class="title"></div>
                 <div class="choice">
                     <!-- Don't forget that this html page is also used to display the search results -->
                     <!-- The chunk of code below will re-select the 'All' radio button if it was chosen previously -->
@@ -40,22 +42,22 @@
                             <span>All</span>
                         </label>
                     </span>
-                    {% for country in countries %}
-                        <!-- Don't forget that this html page is also used to display the search results -->
-                        <!-- The chunk of code below will re-select the radio button for the country chosen previously during form submission -->
-                        {% set specific_dest_checked = "" %}
-                        {% if selected and "destination" in selected %}
-                            {% if selected["destination"] == country.code %}
-                                {% set specific_dest_checked = "checked" %}
-                            {% endif %}
-                        {% endif %}
+
                     <span>
                         <label>
-                            <input type="radio" name="destination-radio-group" value="{{ country.code }}" {{ specific_dest_checked }} />
-                            <span>{{ country.name }}</span>
-                        </label>
-                    </span>
-                    {% endfor %}
+                            <label for="destination-select">Destination:</label>
+                            <select id="destination-select" name="destination-radio-group">
+                                <option value="" {{ all_dest_checked }}>All</option>
+                                {% for country in countries %}
+                                    {% set specific_dest_checked = "" %}
+                                    {% if selected and "destination" in selected %}
+                                        {% if selected["destination"] == country.code %}
+                                            {% set specific_dest_checked = "selected" %}
+                                        {% endif %}
+                                    {% endif %}
+                                    <option value="{{ country.code }}" {{ specific_dest_checked }}>{{ country.name }}</option>
+                                {% endfor %}
+                            </select>
                 </div>
             </div>
             <div class="amenities">
@@ -79,13 +81,13 @@
                     <span>
                         <label>
                             <input type="radio" name="amenities-radio-group" value="" {{ all_amen_checked }} />
-                            <span>Anything</span>
+                            <span>All Amenities</span>
                         </label>
                     </span>
                     <span class="specific">
                         <label>
                             <input type="radio" name="amenities-radio-group" value="specific" {{ specific_amen_checked }} />
-                            <span>Specific Ones</span>
+                            <span>Filter Amentities</span>
                             <button id="btn-specific-amenities-select" type="button">
                                 <span>Please select</span>
                                 <span class="arrows">&raquo;</span>
@@ -137,4 +139,4 @@
 
     {% include "footer.html" %}
 </body>
-</html>
+</html>ƒ 

@@ -1,33 +1,27 @@
 <ul class="listings">
 {% for country_name in places %}
     <li class="country_group">
-        <div class="country_name">{{ country_name }}</div>
+        <div class="country_name">
+            <h1>{{ country_name }}</h1>
+        </div>
         <ul class="cities">
+        </div>
         {% for city_name in places[country_name] %}
             <li class="city_group">
                 <div class="city_name">{{ city_name }}</div>
                 <ul>
                 {% for place in places[country_name][city_name] %}
                     <li class="place">
+                        <img src="static/img/malaysia.jpg" alt="place-img" style="width:100%" class="test-img">
                         <div class="name">{{ place.name }}</div>
                         <div class="details">
-                            <div class="price">
-                                <div class="digits">${{ place.price_per_night }}</div>
-                                <div class="pax">per pax per night</div>
-                            </div>
-                            <div class="description">{{ place.description }}</div>
                             <div class="address" latitude="{{ place.latitude }}" longitude="{{ place.longitude }}">
-                                <span class="text">{{ place.address }}</span>
-                            </div>
-                            <div class="amenities">
-                                {% if place.amenities %}
-                                    {% for amenity in place.amenities %}
-                                    <span>{{ amenity }}</span>
-                                    {% endfor %}
-                                {% else %}
-                                    No amenities!
-                                {% endif %}
-                            </div>
+                                <span class="text">{{ place.address|truncate(25, '...') }}</span>
+                            <div class="price">
+                                <div class="digits"></div>
+                                    <strong class="price_per_night">${{ place.price_per_night }}</div></strong>
+                                <div class="pax">per night</div>
+                                </div>
                             <div class="accommodations">
                                 <span class="rooms"><i class="fa-solid fa-house"></i>{{ place.number_of_rooms }}</span>
                                 <span class="bathrooms"><i class="fa-solid fa-bath"></i>{{ place.number_of_bathrooms }}</span>
