@@ -138,13 +138,6 @@ hbnb = {
             });
         }
 
-        let destSpecificSelectBtn = document.getElementById("btn-specific-destination-select");
-        destSpecificSelectBtn.addEventListener('click', function() {
-            hbnb.showSpecificDestinationSubmenu();
-            if (!destRadios[1].checked) {
-                destRadios[1].click();
-            }
-        });
 
         let selectedDestinationCheckboxes = document.querySelectorAll("#destination-submenu > .items input[type='checkbox']");
         for (let c of selectedDestinationCheckboxes) {
@@ -153,10 +146,7 @@ hbnb = {
             });
         }
 
-        let destSpecificConfirmBtn = document.getElementById("btn-specific-destination-ok");
-        destSpecificConfirmBtn.addEventListener('click', function() {
-            hbnb.hideSpecificDestinationSubmenu();
-        });
+
     },
     showSpecificAmenitiesSubmenu: function() {
         let submenu = document.querySelector("#amenities-submenu");
@@ -200,18 +190,69 @@ hbnb = {
 
         specificCount.innerHTML = checkedCount;
     },
+    destinationSelectInit: function() {
+        // Add event listeners to country elements
+        const countryElements = document.querySelectorAll('.country');
+        countryElements.forEach(function(countryElement) {
+            countryElement.addEventListener('click', function() {
+                const selectedCountry = this.getAttribute('data-country');
+                console.log('Selected Country:', selectedCountry);
+                // Call a function to filter results by selectedCountry
+                hbnb.filterResultsByCountry(selectedCountry);
+            });
+        });
+
+        // Add event listeners to city elements
+        const cityElements = document.querySelectorAll('.city');
+        cityElements.forEach(function(cityElement) {
+            cityElement.addEventListener('click', function() {
+                const selectedCity = this.getAttribute('data-city');
+                console.log('Selected City:', selectedCity);
+                // Call a function to filter results by selectedCity
+                hbnb.filterResultsByCity(selectedCity);
+            });
+        });
+    },
+
+    filterResultsByCountry: function(country) {
+        // Implement the logic to filter results by the selected country
+        console.log(`Filtering results for country: ${country}`);
+        // Add your filtering logic here
+    },
+
+    filterResultsByCity: function(city) {
+        // Implement the logic to filter results by the selected city
+        console.log(`Filtering results for city: ${city}`);
+        // Add your filtering logic here
+    },
+
     init: function() {
         hbnb.amenitiesInit();
         hbnb.destinationInit();
+        hbnb.destinationSelectInit(); // Initialize the destination select functionality
     }
 }
+
 
 window.onload = function() {
     let body = document.getElementsByTagName("body")[0];
     body.setAttribute("js", "ok");
 
     hbnb.init();
+    
+
+
+    axios.get('/status')
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
+  .catch(function (error) {
+    // handle error
+    console.log(error);
+  })
 }
+
 
 // So I'm pretty sure that you've all noticed that the code above is difficult to maintain.
 // Just to access the radio inputs for Amenities, I had to use some crazy long selector string like:

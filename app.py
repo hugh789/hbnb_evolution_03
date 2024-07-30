@@ -19,8 +19,10 @@ def index():
     # Load the data we need before passing it to the template
     countries = Country.all(True)
     amenities = Amenity.all(True)
+    destination = Country.destination()
+    print(destination)
 
-    return render_template('index.html', countries=countries, amenities=amenities)
+    return render_template('index.html', countries=countries, amenities=amenities, destination=destination)
 
 # This endpoint is meant to handle the data submitted by the 'traditional' form post that I have included in the sample HTML
 @app.route('/', methods=["POST"])
@@ -45,16 +47,17 @@ def results():
     countries = Country.all(True)
     amenities = Amenity.all(True)
     country_city_places = Country.places(searched_destination, searched_amenities)
-    # print(country_city_places)
+    #print(country_city_places)
 
     # ??? What is this for? Why are we passing the stuff we selected back to the template???
     selected = {
         "destination": searched_destination,
         "amenities": searched_amenities
     }
-    # print(selected)
+    #print(selected)
 
     return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places, selected=selected)
+
 
 @app.route('/admin')
 def admin():
@@ -126,7 +129,7 @@ def admin_post():
 @app.route('/status')
 def status():
     """ Return server status """
-    return 'OK'
+    return 'hello  world'
 
 # Set debug=True for the server to auto-reload when there are changes
 if __name__ == '__main__':

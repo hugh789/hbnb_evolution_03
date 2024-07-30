@@ -242,6 +242,7 @@ class Country(Base):
 
         return jsonify(output)
 
+    #form submission static method 
     @staticmethod
     def places(country_code = "", amenities = ""):
         """ The big one! Everything we need is in here! """
@@ -285,7 +286,7 @@ class Country(Base):
 
         # If specific amenities were selected
         if amenities != "" and len(amenities) > 0:
-            # Assemble the comma-separated list
+            # Assemble the comma-separated list›
             # 1. wrap each item in the list with inverted commas
             amenity_count = 0
             amenities_list = []
@@ -354,4 +355,27 @@ class Country(Base):
                         "amenities": amenities_array
                     })
 
+        return output
+    
+    @staticmethod
+    def destination():
+        """The big one! Everything we need is in here! """
+        output = {}
+
+        query_txt = "SELECT c.name AS city_name, c2.name AS country_name, c.id AS city_id, c2.id AS country_id FROM cities c LEFT JOIN countries c2 ON c.country_id = c2.id"
+
+        result = storage.raw_sql(query_txt)
+        for row in result:
+            if row.country_name not in output:
+                output[row.country_name] = {}
+
+     
+
+            output[row.country_name][row.city_name]={
+                "country_id": row.country_id,
+                "country_name": row.country_name,
+                "city_name": row.city_name,
+                "city_id": row.city_id,
+            }
+        
         return output

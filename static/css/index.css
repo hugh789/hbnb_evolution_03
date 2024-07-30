@@ -249,6 +249,36 @@ header .status > .bubble.down {
   cursor: pointer;
 }
 
+.drop-down-destination {
+  width: 240px;
+  border: 1px solid black;
+  padding: 10px;
+  background-color: white;
+}
+
+.drop-down-destination li {
+  list-style: none;
+}
+
+.drop-down-destination div.country {
+  padding: 10px;
+  
+}
+
+.drop-down-destination li.city {
+  padding: 10px 10px 10px 35px;
+}
+
+.drop-down-destination div.country:hover {
+  background-color: pink;
+  cursor: pointer;
+}
+
+.drop-down-destination li.city:hover {
+  background-color: pink;
+  cursor: pointer;
+}
+
 #amenities-submenu {
   width: 280px;
   background-color: #E5E5E5;
