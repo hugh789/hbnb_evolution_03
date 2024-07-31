@@ -7,6 +7,7 @@ from models.country import Country
 from models.place_amenity import Place, Amenity
 from models.review import Review
 from models.user import User
+from sqlalchemy.orm import Session
 
 app = Flask(__name__)
 app.register_blueprint(api_routes)
@@ -25,10 +26,9 @@ def index():
     return render_template('index.html', countries=countries, amenities=amenities, destination=destination)
 
 # This endpoint is meant to handle the data submitted by the 'traditional' form post that I have included in the sample HTML
-@app.route('/', methods=["POST"])
+""" @app.route('/', methods=["POST"])
 def results():
-    """ Results page after form post """
-
+    "
     # Evaluate what was submitted from the frontend and return the appropriate results
     if request.form is None:
         abort(400, "No form data submitted")
@@ -56,8 +56,29 @@ def results():
     }
     #print(selected)
 
-    return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places, selected=selected)
+    return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places, selected=selected) """
+@app.route('/', methods=["POST"])
+def results():
+    import json
+    data = json.loads(request.data.decode('utf-8'))
+    print(data)
+    search_type = data['search_type']
+    search_value = data['search_value']
+    print(data['search_type'])  
 
+    session = Session()
+    if search_type == 'country':
+        places = session.query(Place).filter(Place.city.has(City.country_id == search_value)).all()
+    elif search_type == 'city':
+        places = session.query(Place).filter_by(city_id=search_value).all()
+    else:
+        return jsonify({"error": "Invalid search type"}), 400
+
+    places_list = [place.to_dict() for place in places]
+
+    session.close()
+
+    return jsonify(places_list), 200
 
 @app.route('/admin')
 def admin():
