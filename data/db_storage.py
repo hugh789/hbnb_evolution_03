@@ -29,7 +29,7 @@ class DBStorage():
         host = getenv('HBNB_MYSQL_HOST')
         db = getenv('HBNB_MYSQL_DB')
         is_testing = getenv('TESTING')
-
+       
         # If you were lazy and didn't specify anything on the command line, then the defaults below will be used
         # PLEASE DON'T DO THIS IN A REAL WORKING ENVIRONMENT
         if user is None:

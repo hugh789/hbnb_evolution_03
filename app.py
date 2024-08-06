@@ -8,6 +8,8 @@ from models.place_amenity import Place, Amenity
 from models.review import Review
 from models.user import User
 from sqlalchemy.orm import Session
+import json
+from data import storage 
 
 app = Flask(__name__)
 app.register_blueprint(api_routes)
@@ -25,60 +27,42 @@ def index():
 
     return render_template('index.html', countries=countries, amenities=amenities, destination=destination)
 
-# This endpoint is meant to handle the data submitted by the 'traditional' form post that I have included in the sample HTML
-""" @app.route('/', methods=["POST"])
+
+@app.route("/", methods=["GET", "POST"])
 def results():
-    "
-    # Evaluate what was submitted from the frontend and return the appropriate results
-    if request.form is None:
-        abort(400, "No form data submitted")
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.data.decode('utf-8'))
+            search_type = data['search_type']
+            search_value = data['search_value']
+            print(f"Received search_type: {search_type}, search_value: {search_value}")
 
-    formdata = request.form
-    # print(formdata)
+            if search_type == 'country':
+                results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+            elif search_type == 'city':
+                results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+            else:
+                return jsonify({"error": "Invalid search type"}), 400
 
-    searched_destination = formdata.get('destination-radio-group')
-    searched_amenities = formdata.get('amenities-radio-group')
+            # Log the results for debugging
+            print(f"Filtered results: {results}")
 
-    # NOTE: Python flask has a weird way of handling the checkboxes values grouped in an array
-    if searched_amenities != "":
-        searched_amenities = formdata.getlist('amenities-specific-group[]')
+            return render_template('results.html', results=results, search_value=search_value)
 
-    # Load the data we need before passing it to the template
-    countries = Country.all(True)
-    amenities = Amenity.all(True)
-    country_city_places = Country.places(searched_destination, searched_amenities)
-    #print(country_city_places)
+        except (json.JSONDecodeError, KeyError) as e:
+            app.logger.error(f"Error decoding JSON or accessing data: {e}")
+            return jsonify({"error": "Invalid request data"}), 400
 
-    # ??? What is this for? Why are we passing the stuff we selected back to the template???
-    selected = {
-        "destination": searched_destination,
-        "amenities": searched_amenities
-    }
-    #print(selected)
+        except Exception as e:
+            app.logger.error(f"Error in results route: {e}")
+            return jsonify({"error": "Internal Server Error"}), 500
 
-    return render_template('index.html', countries=countries, amenities=amenities, places=country_city_places, selected=selected) """
-@app.route('/', methods=["POST"])
-def results():
-    import json
-    data = json.loads(request.data.decode('utf-8'))
-    print(data)
-    search_type = data['search_type']
-    search_value = data['search_value']
-    print(data['search_type'])  
+    else:  # GET request
+        states = storage.all(State)
+        amenities = storage.all(Amenity)
+        countries = Country.all_countries()  # Assuming this method exists
+        return render_template('index.html', states=states, amenities=amenities, countries=countries)
 
-    session = Session()
-    if search_type == 'country':
-        places = session.query(Place).filter(Place.city.has(City.country_id == search_value)).all()
-    elif search_type == 'city':
-        places = session.query(Place).filter_by(city_id=search_value).all()
-    else:
-        return jsonify({"error": "Invalid search type"}), 400
-
-    places_list = [place.to_dict() for place in places]
-
-    session.close()
-
-    return jsonify(places_list), 200
 
 @app.route('/admin')
 def admin():

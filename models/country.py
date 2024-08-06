@@ -10,6 +10,7 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.orm import relationship
 from data import storage, Base
 from models.city import City
+from sqlalchemy import text, or_ 
 
 class Country(Base):
     """Representation of country """
@@ -379,3 +380,4 @@ class Country(Base):
             }
         
         return output
+

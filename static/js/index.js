@@ -243,6 +243,21 @@ hbnb = {
             });
     },
     
+    filterResultsByCountry: function(selectedCountry) {
+        axios.post('/', {
+            search_type: 'country',
+            search_value: selectedCountry 
+        })
+            .then(response => {
+                // Update the results template with the received data
+                this.updateResultsTemplate(response.data, 'country');
+            })
+            .catch(error => {
+                console.error('Error fetching data by country:', error);
+                this.renderErrorTemplate('No results found for the selected country.');
+            });
+    },
+
     init: function() {
         hbnb.amenitiesInit();
         hbnb.destinationInit();

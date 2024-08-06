@@ -44,6 +44,8 @@ class Place(Base):
     amenities = relationship("Amenity", secondary=place_amenity, back_populates = 'places')
     reviews_r = relationship("Review", back_populates="place_r")
     owner_r = relationship("User", back_populates="properties_r")
+    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+    city = relationship("City", back_populates="places")  # Add this line
 
     # constructor
     def __init__(self, *args, **kwargs):
