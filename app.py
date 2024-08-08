@@ -23,24 +23,24 @@ def index():
     countries = Country.all(True)
     amenities = Amenity.all(True)
     destination = Country.destination()
-    print(destination)
 
     return render_template('index.html', countries=countries, amenities=amenities, destination=destination)
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["POST"])
 def results():
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.data.decode('utf-8'))
-            search_type = data['search_type']
-            search_value = data['search_value']
-            print(f"Received search_type: {search_type}, search_value: {search_value}")
+    data = json.loads(request.data.decode('utf-8'))
+    search_type = data['search_type']
+    search_value = data['search_value']
+    print(f"Received search_type: {search_type}, search_value: {search_value}")
 
-            if search_type == 'country':
-                results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
-            elif search_type == 'city':
-                results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+    if search_type == 'country':
+        results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+    elif search_type == 'city':
+        results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+    print(results)
+    return jsonify(results)
+    """
             else:
                 return jsonify({"error": "Invalid search type"}), 400
 
@@ -55,14 +55,10 @@ def results():
 
         except Exception as e:
             app.logger.error(f"Error in results route: {e}")
-            return jsonify({"error": "Internal Server Error"}), 500
+            return jsonify({"error": "Internal Server Error"}), 500 """
 
-    else:  # GET request
-        states = storage.all(State)
-        amenities = storage.all(Amenity)
-        countries = Country.all_countries()  # Assuming this method exists
-        return render_template('index.html', states=states, amenities=amenities, countries=countries)
 
+        
 
 @app.route('/admin')
 def admin():

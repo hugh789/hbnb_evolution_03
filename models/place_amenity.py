@@ -59,6 +59,7 @@ class Place(Base):
                 if key in self.can_init_list:
                     setattr(self, key, value)
 
+
     @property
     def city_id(self):
         """ Returns value of private property city_id """
@@ -408,6 +409,44 @@ class Place(Base):
 
         return output
 
+    @staticmethod
+    def places_to_cities_countries(search_value, search_type):
+        """Fetches places, their cities, and associated countries based on search type and value."""
+
+        output = {}  # Initialize an empty dictionary to store the results
+
+        if search_type == 'country':
+            query_txt = "SELECT p.*, c.id AS city_id, c.name AS city_name, \
+                        c2.id AS country_id, c2.name AS country_name \
+                FROM places p \
+                LEFT JOIN cities c ON p.city_id = c.id \
+                LEFT JOIN countries c2 ON c.country_id = c2.id \
+                WHERE c2.name = '" + search_value + "'"
+
+        elif search_type == 'city':
+            query_txt = "SELECT p.*, c.id AS city_id, c.name AS city_name, \
+                c2.id AS country_id, c2.name AS country_name \
+                FROM places p \
+                LEFT JOIN cities c ON p.city_id = c.id \
+                LEFT JOIN countries c2 ON c.country_id = c2.id \
+                WHERE c.name = '" + search_value + "'"
+        else:
+            return jsonify({"error": "Invalid search type"}), 400
+        result = storage.raw_sql(query_txt)
+
+        for row in result:
+            if row.country_name not in output:
+                output[row.country_name] = {}
+
+            output[row.country_name][row.city_name] = {
+                "country_id": row.country_id,
+                "country_name": row.country_name,
+                "city_name": row.city_name,
+                "city_id": row.city_id,
+            }
+
+        return output
+
 
 class Amenity(Base):
     """Representation of amenity """
@@ -593,3 +632,7 @@ class Amenity(Base):
             return "Unable to add place-amenity pairing record!"
 
         return 'OK'
+
+
+
+    
