@@ -35,13 +35,17 @@ def results():
     print(f"Received search_type: {search_type}, search_value: {search_value}")
 
     if search_type == 'country':
-        results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+        results = Place.places_to_cities_countries(search_value, search_type)  
     elif search_type == 'city':
-        results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+        results = Place.places_to_cities_countries(search_value, search_type)  
     elif search_type == 'all_places_country':
         results = Place.places_by_country(search_value)
     print(results)
-    return jsonify(results)
+
+    # Render results.html with the fetched data
+    rendered_results = render_template('results.html', places=results) 
+
+    return rendered_results # Return the rendered HTML content
     """
             else:
                 return jsonify({"error": "Invalid search type"}), 400

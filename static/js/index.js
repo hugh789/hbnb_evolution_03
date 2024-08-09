@@ -301,6 +301,39 @@ hbnb = {
         }
     },
     
+    renderResultsTemplate: function(results) {
+    let html = '<ul class="listings">';
+
+    for (const countryName in results) {
+        const countryData = results[countryName];
+        html += `<li class="country_group">`;
+        html += `<div class="country_name"><h1>${countryName}</h1></div>`;
+        html += '<ul class="cities">';
+
+        for (const cityName in countryData) {
+            const cityData = countryData[cityName];
+            html += `<li class="city_group">`;
+            html += `<div class="city_name">${cityName}</div>`;
+            html += '<ul>';
+
+            cityData.forEach(place => {
+                html += `<li class="place">`;
+                // ... Add more HTML to display place details ...
+                html += `</li>`;
+            });
+
+            html += '</ul>';
+            html += `</li>`;
+        }
+
+        html += '</ul>';
+        html += `</li>`;
+    }
+
+    html += '</ul>';
+    return html;
+},
+
     init: function() {
         hbnb.amenitiesInit();
         hbnb.destinationInit();

@@ -503,6 +503,62 @@ class Place(Base):
 
         return output
 
+    @staticmethod
+    def places_by_city(city_id):
+        """Fetch all places associated with the given city_id."""
+
+        query_txt = """
+            SELECT 
+                c.name AS country_name, 
+                ci.name AS city_name, 
+                p.id AS place_id, 
+                p.name, 
+                p.description, 
+                p.address, 
+                p.number_of_rooms, 
+                p.number_of_bathrooms, 
+                p.max_guests, 
+                p.price_per_night, 
+                p.latitude, 
+                p.longitude 
+            FROM 
+                places p
+            JOIN 
+                cities ci ON p.city_id = ci.id
+            JOIN 
+                countries c ON ci.country_id = c.id
+            WHERE 
+                ci.id = :city_id
+        """
+
+        result = storage.raw_sql(query_txt, city_id=city_id)
+        output = {}
+
+        for row in result:
+            country_name = row.country_name
+            city_name = row.city_name
+
+            if country_name not in output:
+                output[country_name] = {}
+
+            if city_name not in output[country_name]:
+                output[country_name][city_name] = []
+
+            output[country_name][city_name].append({
+                "place_id": row.place_id,
+                "name": row.name,
+                "description": row.description,
+                "address": row.address,
+                "number_of_rooms": row.number_of_rooms,
+                "number_of_bathrooms": row.number_of_bathrooms,
+                "max_guests": row.max_guests,
+                "price_per_night": row.price_per_night,
+                "latitude": row.latitude,
+                "longitude": row.longitude,
+            })
+
+        return output
+    
 class Amenity(Base):
     """Representation of amenity """
 

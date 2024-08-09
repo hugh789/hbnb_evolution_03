@@ -139,7 +139,8 @@
             </div>
         </form>
     </section>
-    <section id="results">
+    <div id="results-container">
+        <section id="results">
         {% if places %}
             {% include "results.html" %}
         {% else %}
@@ -147,8 +148,8 @@
                 <h1>Please run the Search above to find available properties!</h1>
             </div>
         {% endif %}
-    </section>
-
+        </section>
+    </div>
     {% include "footer.html" %}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script> 
