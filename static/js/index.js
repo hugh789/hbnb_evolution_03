@@ -214,20 +214,30 @@ hbnb = {
         });
     },
 
-    filterResultsByCountry: function(countryId) {
+    filterResultsByCountry: function(selectedCountry) {
         axios.post('/', {
-            search_type: 'country',
-            search_value: countryId
+            search_type: 'all_places_country',
+            search_value: selectedCountry
         })
-            .then(response => {
-                /* this.renderFilteredResults(response.data, 'country'); */
-                console.log(response)
-            })
-            .catch(error => {
-                console.error('Error fetching data by country:', error);
-                this.renderErrorTemplate('No results found for the selected country.');
-            });
+        .then(response => {
+            // Update the results template with the received data
+            this.updateResultsTemplate(response.data, 'country');
+
+            // Render results.html within the #results section
+            const resultsSection = document.getElementById('results');
+            resultsSection.innerHTML = ''; // Clear previous results   
+    
+    
+            // Assuming you have a template function to render results.html
+            const resultsHtml = this.renderResultsTemplate(response.data);
+            resultsSection.innerHTML = resultsHtml;
+        })
+        .catch(error => {
+            console.error('Error fetching data by country:', error);
+            this.renderErrorTemplate('No results found for the selected country.');
+        });
     },
+    
 
     filterResultsByCity: function(selectedCity) {
         axios.post('/', {
