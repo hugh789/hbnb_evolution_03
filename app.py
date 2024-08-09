@@ -38,6 +38,8 @@ def results():
         results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
     elif search_type == 'city':
         results = Place.places_to_cities_countries(search_value, search_type)  # Call from Place class
+    elif search_type == 'all_places_country':
+        results = Place.places_by_country(search_value)
     print(results)
     return jsonify(results)
     """
