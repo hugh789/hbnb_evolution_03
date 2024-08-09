@@ -229,15 +229,18 @@ hbnb = {
             });
     },
 
-    filterResultsByCity: function(cityId) {
+    filterResultsByCity: function(selectedCity) {
         axios.post('/', {
             search_type: 'city',
-            search_value: cityId
+            search_value: selectedCity 
         })
             .then(response => {
-                /* this.renderFilteredResults(response.data, 'city');*/
-                console.log(response)
-            }).catch(error => {
+                // Update the results template with the received data
+                this.updateResultsTemplate(response.data, 'city');
+                // Redirect to the results page after updating the template
+                window.location.href = '/results'; 
+            })
+            .catch(error => {
                 console.error('Error fetching data by city:', error);
                 this.renderErrorTemplate('No results found for the selected city.');
             });
@@ -258,6 +261,36 @@ hbnb = {
             });
     },
 
+    updateResultsTemplate: function(results, filterType) {
+        const resultsContainer = document.getElementById('results_container');
+        resultsContainer.innerHTML = '';  // Clear previous results
+    
+        // Iterate through the nested structure
+        for (const countryName in results) {
+            const countryData = results[countryName];
+            for (const cityName in countryData) {
+                const cityData = countryData[cityName];
+    
+                // Create elements to display the city and its places
+                const countryHeading = document.createElement('h2');
+                countryHeading.textContent = countryName;
+                resultsContainer.appendChild(countryHeading);
+    
+                const cityHeading = document.createElement('h3');
+                cityHeading.textContent = cityName;
+                resultsContainer.appendChild(cityHeading);
+    
+                const placeList = document.createElement('ul');
+                cityData.places.forEach(place => {
+                    const placeItem = document.createElement('li');
+                    placeItem.textContent = place.name; // Assuming the place has a name property
+                    placeList.appendChild(placeItem);
+                });
+                resultsContainer.appendChild(placeList);
+            }
+        }
+    },
+    
     init: function() {
         hbnb.amenitiesInit();
         hbnb.destinationInit();
