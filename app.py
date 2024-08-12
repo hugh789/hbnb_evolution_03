@@ -29,6 +29,10 @@ def index():
 
 @app.route("/", methods=["POST"])
 def results():
+    countries = Country.all(True)
+    amenities = Amenity.all(True)
+    places_to_cities_countries = Place.all(True)
+    places_by_country = Place.all(True)
     data = json.loads(request.data.decode('utf-8'))
     search_type = data['search_type']
     search_value = data['search_value']
@@ -39,11 +43,11 @@ def results():
     elif search_type == 'city':
         results = Place.places_to_cities_countries(search_value, search_type)  
     elif search_type == 'all_places_country':
-        results = Place.places_by_country(search_value)
+        results = Place.places_by_country(search_value, search_type)
     print(results)
 
     # Render results.html with the fetched data
-    rendered_results = render_template('results.html', places=results) 
+    rendered_results = render_template('results.html', places=results, countries=countries, places_to_cities_countries=places_to_cities_countries, places_by_country=places_by_country) 
 
     return rendered_results # Return the rendered HTML content
     """
