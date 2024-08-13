@@ -41,32 +41,11 @@ def results():
     if search_type == 'country':
         results = Place.places_to_cities_countries(search_value, search_type)  
     elif search_type == 'city':
-        results = Place.places_to_cities_countries(search_value, search_type)  
-    elif search_type == 'all_places_country':
-        results = Place.places_by_country(search_value, search_type)
+        results = Place.places_to_cities_countries(search_value, search_type)
     print(results)
 
-    # Render results.html with the fetched data
-    rendered_results = render_template('results.html', places=results, countries=countries, places_to_cities_countries=places_to_cities_countries, places_by_country=places_by_country) 
-
-    return rendered_results # Return the rendered HTML content
-    """
-            else:
-                return jsonify({"error": "Invalid search type"}), 400
-
-            # Log the results for debugging
-            print(f"Filtered results: {results}")
-
-            return render_template('results.html', results=results, search_value=search_value)
-
-        except (json.JSONDecodeError, KeyError) as e:
-            app.logger.error(f"Error decoding JSON or accessing data: {e}")
-            return jsonify({"error": "Invalid request data"}), 400
-
-        except Exception as e:
-            app.logger.error(f"Error in results route: {e}")
-            return jsonify({"error": "Internal Server Error"}), 500 """
-
+    return jsonify(results)
+  
 
         
 
