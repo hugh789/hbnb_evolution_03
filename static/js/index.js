@@ -154,7 +154,7 @@ const hbnb = {
         .then(data => {
             console.log(data);
             let results = "<ul class='listings'>";
-
+    
             for (let countryName in data) {
                 if (data.hasOwnProperty(countryName)) {
                     const countryData = data[countryName];
@@ -163,55 +163,60 @@ const hbnb = {
                                         "<h1>" + countryName + "</h1>" +
                                     "</div>" +
                                     "<ul class='cities'>";
-
+    
                     for (let cityName in countryData) {
                         if (countryData.hasOwnProperty(cityName)) {
                             const cityPlaces = countryData[cityName];
                             results += "<li class='city_group'>" +
                                             "<div class='city_name'>" + cityName + "</div>" +
                                             "<ul>";
-
-               /*              for (const place of cityPlaces) { // Assuming cityPlaces is an array
-                                results += "<li class='place'>" +
-                                                "<img src='static/img/malaysia.jpg' alt='place-img' style='width:100%' class='test-img'>" +
-                                                "<div class='name'>" + place.name + "</div>" +
-                                                "<div class='details'>" +
-                                                    "<div class='address' latitude='" + place.latitude + "' longitude='" + place.longitude + "'>" +
-                                                        "<span class='text'>" + (place.address ? place.address.substring(0, 25) + '...' : '') + "</span>" + 
+    
+                            // Check if cityPlaces.places is an array
+                            if (Array.isArray(cityPlaces.place)) {
+                                for (const place of cityPlaces.place) { 
+                                    results += "<li class='place'>" +
+                                                    "<img src='static/img/malaysia.jpg' alt='place-img' style='width:100%' class='test-img'>" +
+                                                    "<div class='name'>" + place.name + "</div>" +
+                                                    "<div class='details'>" +
+                                                        "<div class='address' latitude='" + place.latitude + "' longitude='" + place.longitude + "'>" +
+                                                            "<span class='text'>" + (place.address ? place.address.substring(0, 25) + '...' : '') + "</span>" + 
+                                                        "</div>" +
+                                                        "<div class='price'>" +
+                                                            "<div class='digits'></div>" +
+                                                            "<strong class='price_per_night'>$" + place.price_per_night + "</strong>" +
+                                                            "<div class='pax'>per night</div>" +
+                                                        "</div>" +
+                                                        "<div class='accommodations'>" +
+                                                            "<span class='rooms'><i class='fa-solid fa-house'></i>" + place.number_of_rooms + "</span>" +
+                                                            "<span class='bathrooms'><i class='fa-solid fa-bath'></i>" + place.number_of_bathrooms + "</span>" +
+                                                            "<span class='guests'><i class='fa-solid fa-person'></i>" + place.max_guests + "</span>" +
+                                                        "</div>" +
                                                     "</div>" +
-                                                    "<div class='price'>" +
-                                                        "<div class='digits'></div>" +
-                                                        "<strong class='price_per_night'>$" + place.price_per_night + "</strong>" +
-                                                        "<div class='pax'>per night</div>" +
-                                                    "</div>" +
-                                                    "<div class='accommodations'>" +
-                                                        "<span class='rooms'><i class='fa-solid fa-house'></i>" + place.number_of_rooms + "</span>" +
-                                                        "<span class='bathrooms'><i class='fa-solid fa-bath'></i>" + place.number_of_bathrooms + "</span>" +
-                                                        "<span class='guests'><i class='fa-solid fa-person'></i>" + place.max_guests + "</span>" +
-                                                    "</div>" +
-                                                "</div>" +
-                                            "</li>";
+                                                "</li>";
+                                }
+                            } else {
+                                console.warn(`cityPlaces.places is not an array:`, cityPlaces.place);
                             }
- */
+    
                             results += "</ul>" +
-                                    "</li>";
+                                       "</li>";
                         }
                     }
-
+    
                     results += "</ul>" +
-                            "</li>";
+                               "</li>";
                 }
             }
-
+    
             results += "</ul>";
-
-            document.querySelector("#results-container").innerHTML = results;
+    
+            document.querySelector("#results").innerHTML = results;
         })
         .catch(error => console.error("Error fetching places:", error));
     },
 
     filterResultsByCity: function(selectedCity) {
-        // This function should be implemented to handle filtering by city if needed
+        // Implement filtering by city if needed
     }
 };
 

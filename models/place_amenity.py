@@ -411,42 +411,57 @@ class Place(Base):
 
     @staticmethod
     def places_to_cities_countries(search_value, search_type):
-        """Fetches places, their cities, and associated countries based on search type and value."""
+       """Fetches places, their cities, and associated countries based on search type and value."""
 
-        output = {}  # Initialize an empty dictionary to store the results
 
-        if search_type == 'country':
-            query_txt = "SELECT p.*, c.id AS city_id, c.name AS city_name, \
-                        c2.id AS country_id, c2.name AS country_name \
-                FROM places p \
-                LEFT JOIN cities c ON p.city_id = c.id \
-                LEFT JOIN countries c2 ON c.country_id = c2.id \
-                WHERE c2.name = '" + search_value + "'"
+       output = {}  # Initialize an empty dictionary to store the results
 
-        elif search_type == 'city':
-            query_txt = "SELECT p.*, c.id AS city_id, c.name AS city_name, \
-                c2.id AS country_id, c2.name AS country_name \
-                FROM places p \
-                LEFT JOIN cities c ON p.city_id = c.id \
-                LEFT JOIN countries c2 ON c.country_id = c2.id \
-                WHERE c.name = '" + search_value + "'"
-        else:
-            return jsonify({"error": "Invalid search type"}), 400
-        result = storage.raw_sql(query_txt)
 
-        for row in result:
-            if row.country_name not in output:
-                output[row.country_name] = {}
+       if search_type == 'country':
+           query_txt = "SELECT p.*, c.id AS city_id, c.name AS city_name, \
+                       c2.id AS country_id, c2.name AS country_name \
+               FROM places p \
+               LEFT JOIN cities c ON p.city_id = c.id \
+               LEFT JOIN countries c2 ON c.country_id = c2.id \
+               WHERE c2.name = '" + search_value + "'"
 
-            output[row.country_name][row.city_name] = {
-                "country_id": row.country_id,
-                "country_name": row.country_name,
-                "city_name": row.city_name,
-                "city_id": row.city_id,
-            }
 
-        return output
-    
+       elif search_type == 'city':
+           query_txt = "SELECT p.*, c.id AS city_id, c.name AS city_name, \
+               c2.id AS country_id, c2.name AS country_name \
+               FROM places p \
+               LEFT JOIN cities c ON p.city_id = c.id \
+               LEFT JOIN countries c2 ON c.country_id = c2.id \
+               WHERE c.name = '" + search_value + "'"
+       else:
+           return jsonify({"error": "Invalid search type"}), 400
+       result = storage.raw_sql(query_txt)
+
+
+       for row in result:
+           if row.country_name not in output:
+               output[row.country_name] = {}
+
+           if row.city_name not in output[row.country_name]:
+               output[row.country_name][row.city_name] = {
+                    "country_name": row.country_name,
+                    "city_name": row.city_name,
+                    "place": []
+                }
+
+           output[row.country_name][row.city_name]["place"].append({
+                   "name": row.name,
+                   "address": row.address,
+                   "latitude": row.latitude,
+                   "longitude": row.longitude,
+                   "price_per_night": row.price_per_night,
+                   "number_of_rooms": row.number_of_rooms,
+                   "number_of_bathrooms": row.number_of_bathrooms,
+                   "max_guests": row.max_guests,
+                })
+
+
+       return output
 class Amenity(Base):
     """Representation of amenity """
 
