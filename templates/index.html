@@ -34,29 +34,6 @@
                             {% set all_dest_checked = "" %}
                         {% endif %}
                     {% endif %}
-                    <span>
-                        <label>
-                            <input type="radio" name="destination-radio-group" value="" {{ all_dest_checked }} />
-                            <span>All</span>
-                        </label>
-                    </span>
-                    {% for country in countries %}
-                    <!-- 
-                         Don't forget that this html page is also used to display the search results
-                         The chunk of code below will re-select the radio button for the country chosen previously during form submission -->
-                        {% set specific_dest_checked = "" %}
-                        {% if selected and "destination" in selected %}
-                            {% if selected["destination"] == country.code %}
-                                {% set specific_dest_checked = "checked" %}
-                            {% endif %}
-                        {% endif %}
-                    <span>
-                        <label>
-                            <input type="radio" name="destination-radio-group" value="{{ country.code }}" {{ specific_dest_checked }} />
-                            <span>{{ country.name }}</span>
-                        </label>
-                    </span>
-                    {% endfor %}
                 <div class="drop-down-destination">    
                     <ul>
                         {% for country, cities in destination.items() %}

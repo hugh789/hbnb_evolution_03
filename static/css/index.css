@@ -1,20 +1,18 @@
 @font-face {
-  font-family: 'GT Walsheim Pro';
-  src: url('../fonts/GT-Walsheim-Pro/GTWalsheimPro-Regular.woff2') format('woff2'),
-       url('../fonts/GT-Walsheim-Pro/GTWalsheimPro-Regular.woff') format('woff');
+  font-family: "GT Walsheim Pro";
+  src: url("../fonts/GT-Walsheim-Pro/GTWalsheimPro-Regular.woff2") format("woff2"), url("../fonts/GT-Walsheim-Pro/GTWalsheimPro-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
-
 html, body {
-  width:98%;
+  width: 98%;
   margin: 5px auto;
   max-width: 1400px;
   padding: 0 0 30px 0;
   font-family: "GT Walsheim Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 10px;
   min-height: 100vh;
-  background: url('/static/images/background.jpg') no-repeat;
+  background: url("/static/images/background.jpg") no-repeat;
   background-size: cover;
   background-position: center;
 }
@@ -59,7 +57,7 @@ body[js=off] #no-js {
   justify-content: space-between;
   align-items: center;
   z-index: 100;
-  border-bottom: 1px solid rgb (203, 204,203);
+  border-bottom: 1px solid rgb 203, 204, 203;
 }
 
 .navbar {
@@ -68,47 +66,41 @@ body[js=off] #no-js {
   width: 100%;
   justify-content: space-between;
 }
-
 .navbar .logo {
-height:40px;
-width: 120px;
-background-image: url('../img/Hbnblogo.png');
-background-repeat: no-repeat;
-background-position: left -110px center;
-background-size: 350px 350px;
+  height: 30px;
+  width: 90px;
+  background-image: url("../img/Hbnblogo.png");
+  background-repeat: no-repeat;
+  background-position: left -110px center;
+  background-size: 300px 300px;
 }
-
-.Desktop_NavLinks {
-display: flex;
-}
-
 .navbar a {
   position: relative;
-  font-size: 18px;
+  font-size: 16px;
   color: #FFF;
   font-weight: 500;
   text-decoration: none;
-  border-bottom: 1px solid rgb (203, 204,203);
-  margin-left: 20px
+  border-bottom: 1px solid rgb 203, 204, 203;
+  margin-left: 10px;
   border-bottom: 1px solid rgb(203, 204, 203);
 }
-
 .navbar a::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   left: 0;
   width: 0;
   height: 2px;
   background: #fff;
-  transition: .3s;
+  transition: 0.3s;
 }
-
 .navbar a:hover::before {
   width: 100%;
 }
 
-
+.Desktop_NavLinks {
+  display: flex;
+}
 
 header .content {
   flex: 1;
@@ -177,13 +169,11 @@ header .status > .bubble.down {
   align-content: center;
   display: inline-block;
 }
-
-#menu .contents > .destination .title > .selected {
+#menu .contents > .amenities .title > .selected {
   font-size: 1.2rem;
   align-content: center;
   display: inline-block;
 }
-
 #menu .contents > .amenities .title > .selected[state=hide] {
   display: none;
 }
@@ -198,7 +188,7 @@ header .status > .bubble.down {
   display: inline-block;
   transition: all 0.3s;
 }
-#menu .contents > .destination > .title, #menu .contents .amenities > .title {
+#menu .contents > .destination .title, #menu .contents .amenities .title {
   font-size: 2.2rem;
   border-bottom: 1px solid #999;
   margin-bottom: 10px;
@@ -215,7 +205,6 @@ header .status > .bubble.down {
   border: 1px solid rgba(0, 0, 0, 0);
   display: inline-block;
 }
-
 #menu .contents > .destination > .choice > span > label:hover, #menu .contents .amenities > .choice > span > label:hover {
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -229,7 +218,6 @@ header .status > .bubble.down {
   position: absolute;
   transition: all 0.3s;
 }
-
 #menu .contents > .destination > .choice > span > label:active, #menu .contents .amenities > .choice > span > label:active {
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
@@ -255,26 +243,20 @@ header .status > .bubble.down {
   padding: 10px;
   background-color: white;
 }
-
 .drop-down-destination li {
   list-style: none;
 }
-
-.drop-down-destination div.country {
-  padding: 10px;
-  
-}
-
 .drop-down-destination li.city {
   padding: 10px 10px 10px 35px;
 }
-
-.drop-down-destination div.country:hover {
+.drop-down-destination li.city:hover {
   background-color: pink;
   cursor: pointer;
 }
-
-.drop-down-destination li.city:hover {
+.drop-down-destination div.country {
+  padding: 10px;
+}
+.drop-down-destination div.country:hover {
   background-color: pink;
   cursor: pointer;
 }
@@ -283,7 +265,7 @@ header .status > .bubble.down {
   width: 280px;
   background-color: #E5E5E5;
   padding: 10px;
-  border-radius: 3px;ƒ
+  border-radius: 3px;
   top: 30px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
   border: 1px solid #999;
@@ -300,7 +282,6 @@ header .status > .bubble.down {
   z-index: 2;
   right: 0;
 }
-
 #amenities-submenu[state=show] ~ span #btn-specific-amenities-select .arrows {
   transform: rotate(90deg);
 }
@@ -327,12 +308,12 @@ header .status > .bubble.down {
 #amenities-submenu > .items > label > input {
   margin: 0;
 }
-#amenities-submenu > .confirm {
+#amenities-submenu .confirm {
   padding-top: 10px;
   border-top: 1px solid #999;
   text-align: center;
 }
-#amenities-submenu > .confirm button {
+#amenities-submenu .confirm button {
   width: 120px;
   cursor: pointer;
 }
@@ -399,14 +380,10 @@ header .status > .bubble.down {
   margin-inline: auto;
   min-height: 100%;
   font-size: 1.8rem;
-  display: flex
+  display: flex;
 }
 .results ul, .results li {
   margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
   padding: 0;
   list-style: none;
 }
@@ -416,6 +393,9 @@ header .status > .bubble.down {
   padding: 40px 0;
   text-align: center;
 }
+.results > .listings {
+  width: 100%;
+}
 .results > .listings > .country_group {
   padding: 10px;
   margin: 10px;
@@ -424,172 +404,88 @@ header .status > .bubble.down {
   font-size: 3.2rem;
   margin: 10px 0;
   padding: 5px 0;
+  border-bottom: 1px solid #CCC;
 }
 .results > .listings > .country_group > .country_name .flag {
   font-family: "Flags";
 }
 .results > .listings > .country_group > .cities > .city_group {
   padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  margin: -10px; /* Adjust to control spacing */
+  background-color: #F5F5F5;
+  margin-bottom: 10px;
 }
 .results > .listings > .country_group > .cities > .city_group > .city_name {
   font-size: 2.6rem;
   margin-bottom: 10px;
   padding: 8px 0;
 }
+.results > .listings > .country_group > .cities > .city_group > ul {
+  display: flex;
+  flex-wrap: wrap;
+}
 .results > .listings .place {
-  background-color: rgba(0, 0, 0, 0.1);
-  padding: 2px 16px;
-  margin-bottom: 5px;
-  box-shadow: 0px 4px 4px #00000030, 0px 12px 12px #00000015;
-   box-shadow: 0px 4px 4px #00000030;
-  box-shadow: 0px 12px 12px #00000015;
+  width: calc(33% - 20px);
+  padding: 10px;
+  margin: 10px;
   transition: 0.3s;
-  border-radius: 5px; /*round corners*/
   font-family: "GT Walsheim Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: clamp(24px, 5vw, 72px);
   color: rgb(29, 29, 29);
   line-height: 1.4;
   font-weight: 400;
-  margin-bottom: 6px;
-  flex-basis: calc(33.333% - 20px); /* Width of each card */
-  margin: 10px; /* Space between cards */
   box-sizing: border-box; /* Include padding and border in element's total width and height */
-  background: #fff; /* Card background color */
-  border: 1px solid #ddd; /* Card border */
+  background-color: #FFF; /* Card background color */
+  border: 1px solid #DDD; /* Card border */
   border-radius: 8px; /* Rounded corners */
   overflow: hidden; /* Ensures content doesn't overflow the card */
-  padding: 10px; /* Padding inside the card */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add some shadow for depth */me shadow for depth */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: add some shadow for depth me shadow for depth */
 }
-
-
-
-/* Mobile Styles */
-@media (max-width: 767px) {
-  .header {
-    flex-direction: column;
-    padding: 10px;
-  }
-}
-  .navbar .logo {
-    height: 30px;
-    width: 90px;
-    background-size: 300px 300px;
-  }
-
-  .navbar a {
-    font-size: 16px;
-    margin-left: 10px;
-  }
-
-  .results > .listings .place {
-    flex-basis: calc(100% - 20px);
-  }
-
-  .results > .listings .place > .test-img {
-    width: 100%; /* Make the image take the full width of the card */
-    height: auto;
-    max-width: 300px;
-    max-height: 357px;
-  }
-
-  .results > .listings .place > .details { /* text alignment place name */
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding-top: 10px;
-  }
-
-  .results > .listings .place > .details > .info {
-    flex: 1;
-    background-color: purple;
-  }
-  
-  
-  .results > .listings .place > .details > .info > .address {
-    font-size: 1.4rem;
-    color: #555;
-  }
-
-  .results > .listings .place > .details > #price_per_night
-  {text-align: right;
-  }
-  
-  .results > .listings .place > .details > .price {
-    text-align: right;
-  }
-  
-  .results > .listings .place > .details > .price > .digits {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  
-  .results > .listings .place > .details > .price > .pax {
-    font-size: 1.2rem;
-    color: #555;
-    text-align: right;
-  }
-
-/* Desktop Styles */
-@media (min-width: 768px) {
-  .results > .listings .place {
-    flex-basis: calc(33.333% - 20px);
-  }
-
-  .test-img {
-    max-width: 300px;
-    max-height: 357px;
-  }
-}
-
 .results > .listings .place:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
-
-.results > .listings .place > .name {
-  font-size: 2rem;
-  border-bottom: 1px solid #999;
-  margin-bottom: 10px;
-  margin-top: 20px;
-  max-width: min(90vw, 300px);
+.results > .listings .place > .img {
+  width: 100%;
+  height: 350px;
+  background-color: #CCC;
+  background-size: cover;
+  background-position: bottom center;
+}
+.results > .listings .place > .img.malaysia {
+  background-image: url(../img/malaysia.jpg);
+}
+.results > .listings .place > .details { /* text alignment place name */
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  flex: 1;
-}
-
-
-.results > .listings .place > .details {
+  align-items: flex-start;
+  padding-top: 10px;
   font-size: 1.4rem;
   position: relative;
   display: flex;
-  padding: 2;
+  padding: 15px 3px 30px 3px;
 }
-
-.results > .listings .place > .details > div:nth-child(2n) {
-  background-color: rgba(255, 255, 255, 0.2);
+.results > .listings .place > .details > .info {
+  flex: 1;
+  background-color: purple;
+}
+.results > .listings .place > .details > .info > .address {
+  font-size: 1.4rem;
+  color: #555;
+}
+.results > .listings .place > .details > #price_per_night {
+  text-align: right;
 }
 .results > .listings .place > .details > .price {
-  width: 120px;
+  flex: 1;
+  text-align: right;
+  line-height: 1.3;
 }
-.results > .listings .place > .details > .price > .digits {
-  font-size: 4rem;
-  font-weight: bold;
-}
-
-#digits {
-  font-size: 4rem;
-  font-weight: bold;
-}
-
 .results > .listings .place > .details > .price > .pax {
   font-size: 1.2rem;
+  color: #555;
+  margin-left: 5px;
+}
+.results > .listings .place > .details > div:nth-child(2n) {
+  background-color: rgba(255, 255, 255, 0.2);
 }
 .results > .listings .place > .details > .description {
   width: 280px;
@@ -599,15 +495,8 @@ header .status > .bubble.down {
   align-items: center;
 }
 .results > .listings .place > .details > .address {
-  width: 300px;
-  line-height: 1.3;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  text-align: right;
-  padding: 16px 0px 32px;
+  flex: 2;
 }
-
 .results > .listings .place > .details > .amenities {
   flex: 1;
   display: flex;
@@ -622,16 +511,26 @@ header .status > .bubble.down {
 .results > .listings .place > .details > .accommodations {
   font-size: 1.8rem;
   position: absolute;
-  top: -45px;
+  top: -38px;
   right: 0;
   margin-right: 0;
 }
-
 .results > .listings .place > .details > .accommodations > span {
   margin-left: 10px;
 }
 .results > .listings .place > .details > .accommodations > span > i {
   margin-right: 5px;
+}
+.results > .listings .place > .name {
+  font-size: 2rem;
+  border-bottom: 1px solid #999;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+#digits {
+  font-size: 4rem;
+  font-weight: bold;
 }
 
 footer {
@@ -772,6 +671,7 @@ footer {
 .admin-data > .header {
   font-size: 0;
   border-bottom: 2px solid #CCC;
+  font-weight: bold;
 }
 .admin-data > .header > span {
   display: inline-block;
@@ -822,5 +722,17 @@ footer {
   padding: 5px 20px;
   font-size: 1.6rem;
 }
+
+/* Mobile Styles */
+@media (max-width: 767px) {
+  .header {
+    flex-direction: column;
+    padding: 10px;
+  }
+  .results > .listings .place {
+    width: 100%;
+  }
+}
+
 
 /*# sourceMappingURL=index.css.map */

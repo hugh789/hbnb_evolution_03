@@ -175,16 +175,15 @@ const hbnb = {
                             if (Array.isArray(cityPlaces.place)) {
                                 for (const place of cityPlaces.place) { 
                                     results += "<li class='place'>" +
-                                                    "<img src='static/img/malaysia.jpg' alt='place-img' style='width:100%' class='test-img'>" +
+                                                    "<div class='img " + countryName.toLowerCase() + "'></div>" +
                                                     "<div class='name'>" + place.name + "</div>" +
                                                     "<div class='details'>" +
                                                         "<div class='address' latitude='" + place.latitude + "' longitude='" + place.longitude + "'>" +
                                                             "<span class='text'>" + (place.address ? place.address.substring(0, 25) + '...' : '') + "</span>" + 
                                                         "</div>" +
                                                         "<div class='price'>" +
-                                                            "<div class='digits'></div>" +
                                                             "<strong class='price_per_night'>$" + place.price_per_night + "</strong>" +
-                                                            "<div class='pax'>per night</div>" +
+                                                            "<span class='pax'>per night</span>" +
                                                         "</div>" +
                                                         "<div class='accommodations'>" +
                                                             "<span class='rooms'><i class='fa-solid fa-house'></i>" + place.number_of_rooms + "</span>" +
