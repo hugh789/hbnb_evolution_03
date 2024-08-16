@@ -1,50 +1,11 @@
 const hbnb = {
     init: function() {
         // Initialize amenities and destination functionality
-        this.amenitiesInit();
         this.destinationInit();
         this.destinationSelectInit();
     },
     
-    amenitiesInit: function() {
-        // Set up the onclick events for the Amenities radios + button
-        const amenRadios = document.querySelectorAll("#menu > .contents > .amenities > .choice input[type='radio']");
-        for (const elem of amenRadios) {
-            elem.addEventListener("change", function(e) {
-                const specificSelectedText = document.querySelector("#menu > .contents > .amenities > .title .selected");
-                const radioValue = e.target.value;
-                if (radioValue === 'specific') {
-                    hbnb.showSpecificAmenitiesSubmenu();
-                    hbnb.updateSpecificAmenitiesCount();
-                    specificSelectedText.setAttribute('state', 'show');
-                } else {
-                    hbnb.hideSpecificAmenitiesSubmenu();
-                    specificSelectedText.setAttribute('state', 'hide');
-                }
-            });
-        }
-
-        const amenSpecificSelectBtn = document.getElementById("btn-specific-amenities-select");
-        amenSpecificSelectBtn.addEventListener('click', function() {
-            hbnb.showSpecificAmenitiesSubmenu();
-            if (!amenRadios[1].checked) {
-                amenRadios[1].click();
-            }
-        });
-
-        const selectedAmenitiesCheckboxes = document.querySelectorAll("#amenities-submenu > .items input[type='checkbox']");
-        for (const c of selectedAmenitiesCheckboxes) {
-            c.addEventListener('click', function() {
-                hbnb.updateSpecificAmenitiesCount();
-            });
-        }
-
-        const amenSpecificConfirmBtn = document.getElementById("btn-specific-amenities-ok");
-        amenSpecificConfirmBtn.addEventListener('click', function() {
-            hbnb.hideSpecificAmenitiesSubmenu();
-        });
-    },
-
+  
     destinationInit: function() {
         // Set up the onclick events for the Destination radios + button
         const destRadios = document.querySelectorAll("#menu > .contents > .destination > .choice input[type='radio']");

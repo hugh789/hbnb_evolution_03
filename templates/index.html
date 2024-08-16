@@ -25,8 +25,8 @@
 
     <section id="menu">
         <form class="contents" action="/" method="post">
+        <div class="filter-wrapper">
             <div class="destination">
-                <div class="title">Destination</div>
                 <div class="choice">
                     {% set all_dest_checked = "checked" %}
                     {% if selected and "destination" in selected %}
@@ -34,8 +34,9 @@
                             {% set all_dest_checked = "" %}
                         {% endif %}
                     {% endif %}
-                <div class="drop-down-destination">    
-                    <ul>
+                <div class="drop-down-destination">
+                    <p>Select Destination</p>    
+                    <ul class="dropdown-menu">
                         {% for country, cities in destination.items() %}
                             <li>
                                 <div class="country" data-country="{{ country }}">All {{ country }}</div>
@@ -49,70 +50,27 @@
                     </ul>
                 </div>
             </div>
+        </div>
             <div class="amenities">
                 <div class="title">
-                    <span class="text">Amenities</span>
-                    <span class="selected" state="hide">
-                        <span class="count">0</span>
-                        <span>selected</span>
-                    </span>
-                </div>
-                <div class="choice">
-                    <!-- Same as with the destination radio inputs, we re-select what was previously selected during form submission -->
-                    {% set all_amen_checked = "checked" %}
-                    {% set specific_amen_checked = "" %}
-                    {% if selected and "amenities" in selected %}
-                        {% if selected["amenities"] != "" and selected["amenities"]|length > 0 %}
-                            {% set all_amen_checked = "" %}
-                            {% set specific_amen_checked = "checked" %}
-                        {% endif %}
-                    {% endif %}
-                    <span>
-                        <label>
-                            <input type="radio" name="amenities-radio-group" value="" {{ all_amen_checked }} />
-                            <span>Anything</span>
+                    <div class="amenities">
+                        <div class="choice">
+                          <div class="drop-down-amenities">  <p>Select Amenities</p> 
+                              <ul class="dropdown-menu">
+                                  {% for amenity in amenities %}
+                                      <li>
+                                          <label>
+                                              <input type="checkbox" name="amenities[]" value="{{ amenity.id }}"> {{ amenity.name }}
+                                          </label>
+                                      </li>
+                                  {% endfor %}
+                              </ul>
+                          </div>
+                        </div>
+                      </div>
                         </label>
                     </span>
-                    <span class="specific">
-                        <label>
-                            <input type="radio" name="amenities-radio-group" value="specific" {{ specific_amen_checked }} />
-                            <span>Specific Ones</span>
-                            <button id="btn-specific-amenities-select" type="button">
-                                <span>Please select</span>
-                                <span class="arrows">&raquo;</span>
-                            </button>
-                        </label>
-                    </span>
-                    <div id="amenities-submenu" state="hide">
-                        <div class="instruct">
-                            Choose the ones that you want
-                        </div>
-                        <div class="items">
-                            {% set amenity_item_selected = "checked" %}
-                            {% for amenity in amenities %}
-                                <!-- Re-select the checkboxes that were previously chosen -->
-                                {% if selected and "amenities" in selected %}
-                                    {% if selected["amenities"] != "" and selected["amenities"]|length > 0 %}
-                                        {% set amenity_item_selected = "" %}
-                                        {% if amenity.id in selected["amenities"] %}
-                                            {% set amenity_item_selected = "checked" %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endif %}
-                            <label>
-                                <input type="checkbox" name="amenities-specific-group[]" value="{{ amenity.id }}" {{ amenity_item_selected }}>
-                                <span>{{ amenity.name }}</span>
-                            </label>
-                            {% endfor %}
-                        </div>
-                        <div class="confirm">
-                            <button id="btn-specific-amenities-ok" type="button">OK</button>
-                        </div>
-                    </div>
                 </div>
-            </div>
-            <div class="search">
-                <button id="btn-menu-search" type="submit">Search &raquo;</button>
             </div>
         </form>
     </section>
