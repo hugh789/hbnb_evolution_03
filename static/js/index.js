@@ -147,11 +147,11 @@ const hbnb = {
                                                             "<strong class='price_per_night'>$" + place.price_per_night + "</strong>" +
                                                             "<span class='pax'>per night</span>" +
                                                         "</div>" +
-                                                        "<div class='accommodations'>" +
-                                                            "<span class='rooms'><i class='material-icons' 'md-18'>cottage</i>" + place.number_of_rooms + "</span>" +
-                                                            "<span class='bathrooms'><i class='material-icons'>shower</i>" + place.number_of_bathrooms + "</span>" +
-                                                            "<span class='guests'><i class='material-icons'>person</i>" + place.max_guests + "</span>" +
-                                                        "</div>" +
+                                                    "</div>" +
+                                                    "<div class='accommodations'>" +
+                                                        "<span class='rooms'><i class='material-icons' 'md-18'>cottage</i>" + place.number_of_rooms + "</span>" +
+                                                        "<span class='bathrooms'><i class='material-icons'>shower</i>" + place.number_of_bathrooms + "</span>" +
+                                                        "<span class='guests'><i class='material-icons'>person</i>" + place.max_guests + "</span>" +
                                                     "</div>" +
                                                 "</li>";
                                 }
@@ -169,15 +169,19 @@ const hbnb = {
                         }
                     }
                     
-                    results += "<div id='map' style='width: 400px; height: 300px;'></div>"
+                    
 
                     results += "</ul>" +
                                "</li>";
                 }
             }
-    
+            
+      
+
             results += "</ul>";
-    
+            
+            results += "<div id='map'></div>";
+
             document.querySelector("#results").innerHTML = results;
             feather.replace();
 

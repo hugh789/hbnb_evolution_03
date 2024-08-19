@@ -5,9 +5,9 @@
   font-style: normal;
 }
 html, body {
-  width: 98%;
+  /* width: 98%; */
   margin: 5px auto;
-  max-width: 1400px;
+  /* max-width: 1400px; */
   padding: 0 0 30px 0;
   font-family: "GT Walsheim Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 10px;
@@ -67,12 +67,12 @@ body[js=off] #no-js {
   justify-content: space-between;
 }
 .navbar .logo {
-  height: 30px;
-  width: 90px;
+  height: 40px;
+  width: 105px;
   background-image: url("../img/Hbnblogo.png");
   background-repeat: no-repeat;
-  background-position: left -110px center;
-  background-size: 300px 300px;
+  background-position: center;
+  background-size: contain;
 }
 .navbar a {
   position: relative;
@@ -100,6 +100,7 @@ body[js=off] #no-js {
 
 .Desktop_NavLinks {
   display: flex;
+  gap: 15px;
 }
 
 header .content {
@@ -121,6 +122,12 @@ header .status {
   border: 1px solid #CCC;
   display: flex;
   align-items: center;
+  margin-left: 20px;
+  margin-top: -5px;
+}
+header .status a {
+  color: rgb(29, 29, 29);
+  margin: 0 10px;
 }
 header .status > .txt {
   padding: 0 5px;
@@ -417,6 +424,7 @@ header .status > .bubble.down {
 /* Show the dropdown menu on hover */
 .drop-down-destination:hover .dropdown-menu {
   display: block;
+  top: 140px;
 }
 
 /* Style the list items within the dropdown */
@@ -446,6 +454,7 @@ header .status > .bubble.down {
   border-radius: 6px;
   padding: 5px; /* Add some padding for better appearance */
   background-color: white;
+  margin-left: 8px;
 }
 
 .drop-down-amenities svg {
@@ -467,6 +476,7 @@ header .status > .bubble.down {
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  top: 140px;
 }
 
 .drop-down-amenities:hover .dropdown-menu {
@@ -489,8 +499,12 @@ header .status > .bubble.down {
   flex-wrap: wrap;
 }
 
+#results-container {
+  max-width: 2000px;
+  margin: auto;
+}
 .results {
-  max-width: 90%;
+  /* max-width: 90%; */
   margin-inline: auto;
   min-height: 100%;
   font-size: 1.8rem;
@@ -508,7 +522,7 @@ header .status > .bubble.down {
   text-align: center;
 }
 .results > .listings {
-  width: 100%;
+  width: 65%;
 }
 .results > .listings > .country_group {
   padding: 10px;
@@ -559,7 +573,7 @@ header .status > .bubble.down {
 }
 .results > .listings .place > .img {
   width: 100%;
-  height: 350px;
+  height: min(30vh, 410px);
   background-color: #CCC;
   background-size: cover;
   background-position: bottom center;
@@ -622,17 +636,17 @@ header .status > .bubble.down {
   margin-right: 5px;
   line-height: 1.4rem;
 }
-.results > .listings .place > .details > .accommodations {
+.results > .listings .place > .accommodations {
   font-size: 1.8rem;
-  position: absolute;
+  /* position: absolute; */
   top: -38px;
   right: 0;
   margin-right: 0;
 }
-.results > .listings .place > .details > .accommodations > span {
+.results > .listings .place > .accommodations > span {
   margin-left: 10px;
 }
-.results > .listings .place > .details > .accommodations > span > i {
+.results > .listings .place > .accommodations > span > i {
   margin-right: 5px;
 }
 .results > .listings .place > .name {
@@ -644,7 +658,10 @@ header .status > .bubble.down {
 
 .results #map {
   display: flex;
-  flex: 1;
+  position: sticky;
+  top: 73px;
+  height: calc(100vh - 110px);
+  flex-grow: 1;
 }
 
 #digits {
@@ -843,12 +860,30 @@ footer {
 }
 
 /* Mobile Styles */
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
   .header {
     flex-direction: column;
     padding: 10px;
   }
   .results > .listings .place {
+    width: calc(33% - 20px);
+  }
+  
+}
+
+@media (max-width: 1000px) {
+  
+  .results > .listings .place {
+    width: 100%;
+  }
+  
+}
+
+@media (max-width: 767px) {
+  .results #map {
+    display: none;
+  }
+  .results > .listings {
     width: 100%;
   }
 }
