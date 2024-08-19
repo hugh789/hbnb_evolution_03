@@ -190,7 +190,6 @@ header .status > .bubble.down {
 }
 #menu .contents > .destination .title, #menu .contents .amenities .title {
   font-size: 2.2rem;
-  border-bottom: 1px solid #999;
 }
 #menu .contents > .destination > .choice, #menu .contents .amenities > .choice {
   font-size: 1.6rem;
@@ -240,7 +239,14 @@ header .status > .bubble.down {
   border: 1px solid black;
   padding: 10px;
   background-color: white;
+  display: flex;
+  align-items: center;
 }
+
+.drop-down-destination svg {
+  margin-right: 5px;
+}
+
 .drop-down-destination li {
   list-style: none;
 }
@@ -377,10 +383,19 @@ header .status > .bubble.down {
 
 /* Style the dropdown container */
 .drop-down-destination {
-  position: relative; /* Necessary for absolute positioning of the dropdown content */
-  display: inline-block; /* Make the container behave like an inline element */
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center the items */
   border: 1px solid rgb(213, 213, 213);
   border-radius: 6px;
+  padding: 5px; /* Add some padding for better appearance */
+}
+
+.drop-down-destination svg {
+  margin-right: 8px; /* Add some space between the icon and the text */
+}
+
+.drop-down-destination p {
+  margin: 0; /* Remove default margin */
 }
 
 /* Style the dropdown button (or trigger element) */
@@ -425,14 +440,20 @@ header .status > .bubble.down {
 /*amenities hover drop down*/
 /* Style the dropdown container for amenities (similar to destinations) */
 .drop-down-amenities {
-  position: relative;
-  display: inline-block;
-  width: 153px;
-  border: 1px solid black;
-  padding: 10px;
-  background-color: white;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center the items */
   border: 1px solid rgb(213, 213, 213);
   border-radius: 6px;
+  padding: 5px; /* Add some padding for better appearance */
+  background-color: white;
+}
+
+.drop-down-amenities svg {
+  margin-right: 8px;
+}
+
+.drop-down-amenities p {
+  margin: 0;
 }
 
 .drop-down-amenities > .choice {
@@ -619,6 +640,11 @@ header .status > .bubble.down {
   border-bottom: 1px solid #999;
   margin-bottom: 10px;
   margin-top: 20px;
+}
+
+.results #map {
+  display: flex;
+  flex: 1;
 }
 
 #digits {
@@ -827,5 +853,21 @@ footer {
   }
 }
 
-
+/* Goolge Font Icons */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 18px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+.my-container .material-icons {
+  font-size: 20px; 
+}
 /*# sourceMappingURL=index.css.map */

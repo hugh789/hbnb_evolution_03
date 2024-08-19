@@ -1,6 +1,7 @@
 const hbnb = {
     init: function() {
         // Initialize amenities and destination functionality
+
         this.destinationInit();
         this.destinationSelectInit();
     },
@@ -147,9 +148,9 @@ const hbnb = {
                                                             "<span class='pax'>per night</span>" +
                                                         "</div>" +
                                                         "<div class='accommodations'>" +
-                                                            "<span class='rooms'><i class='fa-solid fa-house'></i>" + place.number_of_rooms + "</span>" +
-                                                            "<span class='bathrooms'><i class='fa-solid fa-bath'></i>" + place.number_of_bathrooms + "</span>" +
-                                                            "<span class='guests'><i class='fa-solid fa-person'></i>" + place.max_guests + "</span>" +
+                                                            "<span class='rooms'><i class='material-icons' 'md-18'>cottage</i>" + place.number_of_rooms + "</span>" +
+                                                            "<span class='bathrooms'><i class='material-icons'>shower</i>" + place.number_of_bathrooms + "</span>" +
+                                                            "<span class='guests'><i class='material-icons'>person</i>" + place.max_guests + "</span>" +
                                                         "</div>" +
                                                     "</div>" +
                                                 "</li>";
@@ -157,12 +158,19 @@ const hbnb = {
                             } else {
                                 console.warn(`cityPlaces.places is not an array:`, cityPlaces.place);
                             }
-    
+
+                       /*       // Add a marker to the map
+                                new mapboxgl.Marker()
+                                    .setLngLat([place.longitude, place.latitude]) 
+                                    .addTo(map); */
+        
                             results += "</ul>" +
                                        "</li>";
                         }
                     }
-    
+                    
+                    results += "<div id='map' style='width: 400px; height: 300px;'></div>"
+
                     results += "</ul>" +
                                "</li>";
                 }
@@ -171,6 +179,14 @@ const hbnb = {
             results += "</ul>";
     
             document.querySelector("#results").innerHTML = results;
+            feather.replace();
+
+            // Initialize Mapbox map (after results are loaded)
+                mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94aGJuYiIsImEiOiJjbTAwZmNsd3gxMHpiMmxvcmlhN3FsamIyIn0.rGEekbo8oWjQEQeqkVD1Pg'; 
+                const map = new mapboxgl.Map({
+                    container: 'map', // Container ID
+                    style: 'mapbox://styles/mapbox/streets-v12' // Map style
+             });
         })
         .catch(error => console.error("Error fetching places:", error));
     },

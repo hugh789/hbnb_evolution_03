@@ -9,10 +9,14 @@
     <link type="text/css" rel="stylesheet" href="../static/fontawesome/css/all.css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet" href="../static/css/index.css">
     <link rel="icon" href="../static/img/favicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.1.1/mapbox-gl.css' rel='stylesheet' />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.2/axios.min.js"></script>
     </script>
     <script type="text/javascript" src="../static/js/index.js"></script>
     <title>HBnB Evolution Part 03</title>
+    <script src="https://unpkg.com/feather-icons"></script>
+    
 </head>
 <body pg-name="index" js="off">
     {% include "header.html" %}
@@ -35,7 +39,7 @@
                         {% endif %}
                     {% endif %}
                 <div class="drop-down-destination">
-                    <p>Select Destination</p>    
+                    <svg data-feather="search"></svg><p>Destination</p>    
                     <ul class="dropdown-menu">
                         {% for country, cities in destination.items() %}
                             <li>
@@ -55,7 +59,7 @@
                 <div class="title">
                     <div class="amenities">
                         <div class="choice">
-                          <div class="drop-down-amenities">  <p>Select Amenities</p> 
+                          <div class="drop-down-amenities"> <svg data-feather="key"></svg> <p>Amenities</p> 
                               <ul class="dropdown-menu">
                                   {% for amenity in amenities %}
                                       <li>
@@ -88,6 +92,9 @@
     {% include "footer.html" %}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script> 
+    <script>
+        feather.replace();
+      </script>
 </body>
-</body>
+<script src='https://api.mapbox.com/mapbox-gl-js/v3.1.1/mapbox-gl.js'></script>
 </html>
