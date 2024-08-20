@@ -52,7 +52,7 @@ body[js=off] #no-js {
   left: 0;
   width: 100%;
   padding: 20px 20px;
-  background: grey;
+  background: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,7 +77,7 @@ body[js=off] #no-js {
 .navbar a {
   position: relative;
   font-size: 16px;
-  color: #FFF;
+  color: #333;
   font-weight: 500;
   text-decoration: none;
   border-bottom: 1px solid rgb 203, 204, 203;
@@ -148,9 +148,12 @@ header .status > .bubble.down {
 
 #menu {
   width: 100%;
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0) 100%);
   margin-top: 90px;
+  background-color: white;
+  border-bottom: 1px solid rgb(229, 230, 228);
+  border-top: 1px solid rgb(229, 230, 228);
 }
+
 #menu .contents {
   margin: 0 auto;
   max-width: 1280px;
