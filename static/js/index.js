@@ -1,12 +1,10 @@
 const hbnb = {
     init: function() {
         // Initialize amenities and destination functionality
-
         this.destinationInit();
         this.destinationSelectInit();
     },
-    
-  
+
     destinationInit: function() {
         // Set up the onclick events for the Destination radios + button
         const destRadios = document.querySelectorAll("#menu > .contents > .destination > .choice input[type='radio']");
@@ -110,87 +108,206 @@ const hbnb = {
             search_type: 'country',
             search_value: selectedCountry
         })
-        .then(response => {
-            return response.data;
-        })
+        .then(response => response.data)
         .then(data => {
             console.log(data);
             let results = "<ul class='listings'>";
-    
+
+            // Generate HTML content for results
             for (let countryName in data) {
                 if (data.hasOwnProperty(countryName)) {
                     const countryData = data[countryName];
                     results += "<li class='country_group'>" +
-                                    "<div class='country_name'>" +
-                                        "<h1>" + countryName + "</h1>" +
-                                    "</div>" +
-                                    "<ul class='cities'>";
-    
+                                   "<div class='country_name'>" +
+                                       "<h1>" + countryName + "</h1>" +
+                                   "</div>" +
+                                   "<ul class='cities'>";
+
                     for (let cityName in countryData) {
                         if (countryData.hasOwnProperty(cityName)) {
                             const cityPlaces = countryData[cityName];
                             results += "<li class='city_group'>" +
-                                            "<div class='city_name'>" + cityName + "</div>" +
-                                            "<ul>";
-    
-                            // Check if cityPlaces.places is an array
+                                           "<div class='city_name'>" + cityName + "</div>" +
+                                           "<ul>";
+
                             if (Array.isArray(cityPlaces.place)) {
-                                for (const place of cityPlaces.place) { 
+                                for (const place of cityPlaces.place) {
                                     results += "<li class='place'>" +
-                                                    "<div class='img " + countryName.toLowerCase() + "'></div>" +
-                                                    "<div class='name'>" + place.name + "</div>" +
-                                                    "<div class='details'>" +
-                                                        "<div class='address' latitude='" + place.latitude + "' longitude='" + place.longitude + "'>" +
-                                                            "<span class='text'>" + (place.address ? place.address.substring(0, 25) + '...' : '') + "</span>" + 
-                                                        "</div>" +
-                                                        "<div class='price'>" +
-                                                            "<strong class='price_per_night'>$" + place.price_per_night + "</strong>" +
-                                                            "<span class='pax'>per night</span>" +
-                                                        "</div>" +
-                                                    "</div>" +
-                                                    "<div class='accommodations'>" +
-                                                        "<span class='rooms'><i class='material-icons' 'md-18'>cottage</i>" + place.number_of_rooms + "</span>" +
-                                                        "<span class='bathrooms'><i class='material-icons'>shower</i>" + place.number_of_bathrooms + "</span>" +
-                                                        "<span class='guests'><i class='material-icons'>person</i>" + place.max_guests + "</span>" +
-                                                    "</div>" +
-                                                "</li>";
+                                                   "<div class='img " + countryName.toLowerCase() + "'></div>" +
+                                                   "<div class='name'>" + place.name + "</div>" +
+                                                   "<div class='details'>" +
+                                                       "<div class='address' latitude='" + place.latitude + "' longitude='" + place.longitude + "'>" +
+                                                           "<span class='text'>" + (place.address ? place.address.substring(0, 25) + '...' : '') + "</span>" + 
+                                                       "</div>" +
+                                                       "<div class='price'>" +
+                                                           "<strong class='price_per_night'>$" + place.price_per_night + "</strong>" +
+                                                           "<span class='pax'>per night</span>" +
+                                                       "</div>" +
+                                                   "</div>" +
+                                                   "<div class='accommodations'>" +
+                                                       "<span class='rooms'><i class='material-icons md-18'>cottage</i>" + place.number_of_rooms + "</span>" +
+                                                       "<span class='bathrooms'><i class='material-icons'>shower</i>" + place.number_of_bathrooms + "</span>" +
+                                                       "<span class='guests'><i class='material-icons'>person</i>" + place.max_guests + "</span>" +
+                                                   "</div>" +
+                                               "</li>";
                                 }
-                            } else {
-                                console.warn(`cityPlaces.places is not an array:`, cityPlaces.place);
                             }
 
-                       /*       // Add a marker to the map
-                                new mapboxgl.Marker()
-                                    .setLngLat([place.longitude, place.latitude]) 
-                                    .addTo(map); */
-        
                             results += "</ul>" +
                                        "</li>";
                         }
                     }
-                    
-                    
 
                     results += "</ul>" +
                                "</li>";
                 }
             }
-            
-      
 
             results += "</ul>";
-            
             results += "<div id='map'></div>";
 
             document.querySelector("#results").innerHTML = results;
             feather.replace();
 
-            // Initialize Mapbox map (after results are loaded)
-                mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94aGJuYiIsImEiOiJjbTAwZmNsd3gxMHpiMmxvcmlhN3FsamIyIn0.rGEekbo8oWjQEQeqkVD1Pg'; 
-                const map = new mapboxgl.Map({
-                    container: 'map', // Container ID
-                    style: 'mapbox://styles/mapbox/streets-v12' // Map style
-             });
+            // Convert data to GeoJSON format for Mapbox
+            const geojsonData = {
+                type: "FeatureCollection",
+                features: []
+            };
+
+            for (let countryName in data) {
+                const countryData = data[countryName];
+                for (let cityName in countryData) {
+                    const cityPlaces = countryData[cityName].place;
+                    for (const place of cityPlaces) {
+                        geojsonData.features.push({
+                            type: "Feature",
+                            geometry: {
+                                type: "Point",
+                                coordinates: [place.longitude, place.latitude]
+                            },
+                            properties: {
+                                name: place.name,
+                                address: place.address,
+                                price_per_night: place.price_per_night,
+                                number_of_rooms: place.number_of_rooms,
+                                number_of_bathrooms: place.number_of_bathrooms,
+                                max_guests: place.max_guests
+                            }
+                        });
+                    }
+                }
+            }
+
+            // Initialize Mapbox
+            mapboxgl.accessToken = 'pk.eyJ1IjoibWFwYm94aGJuYiIsImEiOiJjbTAwZmNsd3gxMHpiMmxvcmlhN3FsamIyIn0.rGEekbo8oWjQEQeqkVD1Pg';
+            const map = new mapboxgl.Map({
+                container: 'map',
+                style: 'mapbox://styles/mapbox/streets-v12',
+                center: [101.715, 3.15395], // Example center point
+                zoom: 10
+            });
+
+            map.on('load', function() {
+                map.addSource('places', {
+                    type: 'geojson',
+                    data: geojsonData,
+                    cluster: true,
+                    clusterMaxZoom: 14,
+                    clusterRadius: 50
+                });
+
+                map.addLayer({
+                    id: 'clusters',
+                    type: 'circle',
+                    source: 'places',
+                    filter: ['has', 'point_count'],
+                    paint: {
+                        'circle-color': [
+                            'step',
+                            ['get', 'point_count'],
+                            '#51bbd6',
+                            10,
+                            '#f1f075',
+                            100,
+                            '#f28cb1'
+                        ],
+                        'circle-radius': [
+                            'step',
+                            ['get', 'point_count'],
+                            20,
+                            10,
+                            30,
+                            100,
+                            40
+                        ]
+                    }
+                });
+
+                map.addLayer({
+                    id: 'cluster-count',
+                    type: 'symbol',
+                    source: 'places',
+                    filter: ['has', 'point_count'],
+                    layout: {
+                        'text-field': '{point_count_abbreviated}',
+                        'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                        'text-size': 12
+                    }
+                });
+
+                map.addLayer({
+                    id: 'unclustered-point',
+                    type: 'circle',
+                    source: 'places',
+                    filter: ['!', ['has', 'point_count']],
+                    paint: {
+                        'circle-color': '#11b4da',
+                        'circle-radius': 4,
+                        'circle-stroke-width': 1,
+                        'circle-stroke-color': '#fff'
+                    }
+                });
+
+                // Add click event to zoom into clusters
+                map.on('click', 'clusters', function(e) {
+                    const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+                    const clusterId = features[0].properties.cluster_id;
+                    map.getSource('places').getClusterExpansionZoom(clusterId, function(err, zoom) {
+                        if (err) return;
+
+                        map.easeTo({
+                            center: features[0].geometry.coordinates,
+                            zoom: zoom
+                        });
+                    });
+                });
+
+                // Add click event to individual points
+                map.on('click', 'unclustered-point', function(e) {
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const { name, address, price_per_night } = e.features[0].properties;
+
+                    new mapboxgl.Popup()
+                        .setLngLat(coordinates)
+                        .setHTML(`<strong>${name}</strong><br/>${address}<br/>Price: $${price_per_night}/night`)
+                        .addTo(map);
+                });
+
+                // Change cursor to pointer when over clusters and points
+                map.on('mouseenter', 'clusters', function() {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'clusters', function() {
+                    map.getCanvas().style.cursor = '';
+                });
+                map.on('mouseenter', 'unclustered-point', function() {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'unclustered-point', function() {
+                    map.getCanvas().style.cursor = '';
+                });
+            });
         })
         .catch(error => console.error("Error fetching places:", error));
     },

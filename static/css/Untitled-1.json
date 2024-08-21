@@ -1,0 +1,80 @@
+ // Initialize Mapbox map
+ mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN';
+ const map = new mapboxgl.Map({
+   container: 'map',
+   style: 'mapbox://styles/mapbox/streets-v12'   
+
+ });
+
+ // Add a GeoJSON source containing the place data (assuming 'data' is already in GeoJSON format)
+ map.on('load', function () {
+   map.addSource('places', {
+     type: 'geojson',
+     data: data, // Use the GeoJSON data from the response
+     cluster: true,
+     clusterMaxZoom: 14, // Max zoom to cluster points on
+     clusterRadius: 50 // Radius of each cluster when clustering points (defaults   
+to 50)
+   });
+
+   // Add a layer   
+to display clusters
+   map.addLayer({
+     id: 'clusters',
+     type: 'circle',
+     source: 'places',
+     filter: ['has', 'point_count'],
+     paint: {
+       'circle-color': [
+         'step',
+         ['get', 'point_count'],
+         '#51bbd6',   
+// Color for clusters with 10 or less points
+         10,
+         '#f1f075', // Color for clusters with 11-100 points
+         100,
+         '#f28cb1'  // Color for clusters with more than 100 points
+       ],
+       'circle-radius': [
+         'step',
+         ['get', 'point_count'],
+         20, // Radius for clusters with 10 or less points
+         10,
+         30, // Radius for clusters with 11-100 points
+         100,
+         40  // Radius for clusters with more than 100 points
+       ]
+     }
+   });
+
+   // Add a layer to display the number of points in each cluster
+   map.addLayer({
+     id: 'cluster-count',
+     type: 'symbol',
+     source: 'places',
+     filter: ['has', 'point_count'],
+     layout: {
+       'text-field': ['get', 'point_count_abbreviated'],
+       'text-font': ['DIN Offc Pro Medium', 'Arial Unicode   
+MS Bold'],
+       'text-size': 12
+     }
+   });
+
+   // Add   
+a layer to display individual markers when zoomed in
+   map.addLayer({
+     id: 'unclustered-point',
+     type: 'circle',
+     source: 'places',
+     filter: ['!', ['has', 'point_count']],
+     paint: {
+       'circle-color': '#11b4da',
+       'circle-radius': 4,
+       'circle-stroke-width': 1,
+       'circle-stroke-color':   
+'#fff'
+     }
+   });
+ });
+})
